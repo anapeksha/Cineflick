@@ -656,6 +656,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cineflick@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "cineflick@workspace:."
+  dependencies:
+    "@emotion/react": ^11.10.5
+    "@emotion/styled": ^11.10.5
+    "@mui/icons-material": ^5.10.9
+    "@mui/material": ^5.10.12
+    "@types/node": 18.11.8
+    "@types/react": 18.0.24
+    "@types/react-dom": 18.0.8
+    axios: ^1.1.3
+    next: 13.0.1
+    react: 18.2.0
+    react-dom: 18.2.0
+    typescript: 4.8.4
+  languageName: unknown
+  linkType: soft
+
 "client-only@npm:0.0.1":
   version: 0.0.1
   resolution: "client-only@npm:0.0.1"
@@ -768,25 +787,6 @@ __metadata:
   checksum: b2a59fe4b6c932eef36c45a048ae8f93c85640212ebe8363164814990ee20f154197505965f3f4f102efc33bfb1cbc26fd17c4a2fc739ebc51b886b137cbefaf
   languageName: node
   linkType: hard
-
-"finderbar@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "finderbar@workspace:."
-  dependencies:
-    "@emotion/react": ^11.10.5
-    "@emotion/styled": ^11.10.5
-    "@mui/icons-material": ^5.10.9
-    "@mui/material": ^5.10.12
-    "@types/node": 18.11.8
-    "@types/react": 18.0.24
-    "@types/react-dom": 18.0.8
-    axios: ^1.1.3
-    next: 13.0.1
-    react: 18.2.0
-    react-dom: 18.2.0
-    typescript: 4.8.4
-  languageName: unknown
-  linkType: soft
 
 "follow-redirects@npm:^1.15.0":
   version: 1.15.2

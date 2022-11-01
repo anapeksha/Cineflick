@@ -1,4 +1,4 @@
 interface IDrawerProps {
-	drawerOpen: Boolean;
+	drawerOpen: boolean;
 	setDrawerOpen: Dispatch<SetStateAction<Boolean>>;
 }
