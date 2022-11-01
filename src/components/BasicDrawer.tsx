@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import * as React from "react";
+import IDrawerProps from "../interfaces/IDrawerProps";
 
 const listItems = [
 	{ title: "Home", icon: <HomeIcon />, url: "/" },
