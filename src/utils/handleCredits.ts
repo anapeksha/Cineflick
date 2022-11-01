@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_KEY } from "../uri";
 
-const handleCredits:any = (id) => {
+const handleCredits:any = (id: string) => {
 	return axios(
 		`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`,
 		{

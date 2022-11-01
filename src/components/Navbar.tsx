@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
@@ -13,6 +12,7 @@ import {
 	Toolbar,
 	Typography,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import React, { useState } from "react";
 import INavbarProps from "../interfaces/INavbarProps";
 import { darkTheme, lightTheme } from "../utils/theme";
@@ -109,6 +109,7 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 									}}
 								/>
 							}
+							label="theme-switch"
 						/>
 					</FormGroup>
 					{true && (

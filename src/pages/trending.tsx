@@ -8,7 +8,7 @@ const Trending = () => {
 	const [trending, setTrending] = useState([]);
 
 	useEffect(() => {
-		trendingMovies(1, "day").then((data) => {
+		trendingMovies(1, "day").then((data: any) => {
 			setTrending(data.results);
 		});
 	}, []);

@@ -1,4 +1,8 @@
+import * as React from "react";
+
 interface IDrawerProps {
 	drawerOpen: boolean;
-	setDrawerOpen: Dispatch<SetStateAction<Boolean>>;
+	setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export default IDrawerProps;
