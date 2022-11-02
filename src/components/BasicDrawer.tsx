@@ -20,7 +20,7 @@ import IDrawerProps from "../interfaces/IDrawerProps";
 const listItems = [
 	{ title: "Home", icon: <HomeIcon />, url: "/" },
 	{ title: "Trending", icon: <WhatshotIcon />, url: "trending" },
-	{ title: "Browse", icon: <SearchIcon />, url: "browse" },
+	{ title: "Browse", icon: <SearchIcon />, url: "browse?page=1" },
 ];
 
 const authItems = [
