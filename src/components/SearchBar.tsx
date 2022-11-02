@@ -5,7 +5,7 @@ import ISearchBarProps from "../interfaces/ISearchBarProps";
 
 const SearchBar: React.FC<ISearchBarProps> = (props) => {
 	return (
-		<Box sx={{ display: "flex", justifyContent: "center", paddingTop: "20px" }}>
+		<Box sx={{ display: "flex", justifyContent: "center", padding: "20px" }}>
 			<Paper
 				component="form"
 				sx={{ p: "2px 4px", display: "flex", alignItems: "center", width: 400 }}
