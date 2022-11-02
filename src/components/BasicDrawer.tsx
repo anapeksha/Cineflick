@@ -62,7 +62,7 @@ const BasicDrawer: React.FC<IDrawerProps> = (props) => {
 				{authItems.map((item, index) =>
 					item.display ? (
 						<ListItem key={index} disablePadding>
-							<ListItemButton>
+							<ListItemButton onClick={() => router.push(item.url)}>
 								<ListItemIcon>{item.icon}</ListItemIcon>
 								<ListItemText primary={item.title} />
 							</ListItemButton>
