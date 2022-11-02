@@ -13,7 +13,7 @@ const Browse = (props: any) => {
 	const [searchResults, setSearchResults] = useState([]);
 	const router = useRouter();
 
-	const handleSearch = async (query: string) => {
+	const handleSearch = (query: string) => {
 		var searchQuery = query.split(" ").join("+");
 		router.replace(`browse?searchQuery=${searchQuery}&page=${page}`);
 	};
@@ -33,6 +33,7 @@ const Browse = (props: any) => {
 
 	useEffect(() => {
 		handlePageRedirect(page);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [page]);
 
 	return (
@@ -40,6 +41,7 @@ const Browse = (props: any) => {
 			<SearchBar
 				searchQuery={query}
 				setSearchQuery={setQuery}
+				page={page}
 				onSearch={handleSearch}
 			/>
 			<BasicGrid data={searchResults} />
