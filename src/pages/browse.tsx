@@ -13,7 +13,7 @@ const Browse = (props: any) => {
 	const [searchResults, setSearchResults] = useState([]);
 	const router = useRouter();
 
-	const searchQueryMaker: string = (query: string) => {
+	var searchQueryMaker = (query: string): string => {
 		var searchQuery = query.split(" ").join("+");
 		return searchQuery;
 	};
@@ -46,7 +46,6 @@ const Browse = (props: any) => {
 			<SearchBar
 				searchQuery={query}
 				setSearchQuery={setQuery}
-				page={page}
 				onSearch={handleSearch}
 			/>
 			<BasicGrid data={searchResults} />
