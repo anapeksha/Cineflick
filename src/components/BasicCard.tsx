@@ -1,14 +1,14 @@
 import { CardActionArea } from "@mui/material";
-import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import ICardProps from "../interfaces/ICardProps";
+import AnimatedCard from "../styles/AnimatedCard.style";
 
 const BasicCard: React.FC<ICardProps> = (props) => {
 	return (
-		<Card sx={{ maxWidth: 345 }} elevation={6}>
+		<AnimatedCard sx={{ maxWidth: 345 }} elevation={6}>
 			<CardActionArea>
 				<CardMedia
 					component="img"
@@ -29,7 +29,7 @@ const BasicCard: React.FC<ICardProps> = (props) => {
 					</Typography>
 				</CardContent>
 			</CardActionArea>
-		</Card>
+		</AnimatedCard>
 	);
 };
 
