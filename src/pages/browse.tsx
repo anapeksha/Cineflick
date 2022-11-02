@@ -4,8 +4,9 @@ import Paginate from "../components/Paginate";
 import { useEffect, useState } from "react";
 import { handleImage, searchMovies, trendingMovies } from "../utils";
 import { useRouter } from "next/router";
+import { GetServerSideProps } from "next";
 
-const Browse = (props) => {
+const Browse = (props: any) => {
 	const [query, setQuery] = useState("");
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(props.data.total_pages);
@@ -42,14 +43,18 @@ const Browse = (props) => {
 				onSearch={handleSearch}
 			/>
 			<BasicGrid data={searchResults} />
-			<Paginate page={page} setPage={setPage} totalPages={totalPages} />
+			<Paginate
+				page={page.toString()}
+				setPage={setPage}
+				totalPages={totalPages}
+			/>
 		</div>
 	);
 };
 
 export default Browse;
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
 	var { page, searchQuery } = context.query;
 	if (searchQuery) {
 		var data: any = await searchMovies(searchQuery, page);

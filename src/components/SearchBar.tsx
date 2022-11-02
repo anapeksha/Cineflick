@@ -15,10 +15,10 @@ const SearchBar: React.FC<ISearchBarProps> = (props) => {
 					placeholder="Search"
 					inputProps={{ "aria-label": "search" }}
 					value={props.searchQuery}
-					onChange={(e: React.ChangeEvent) =>
+					onChange={(e: React.ChangeEvent<any>) =>
 						props.setSearchQuery(e.target.value)
 					}
-					onKeyDown={(e: React.KeyboardEvent) => {
+					onKeyDown={(e: React.KeyboardEvent<any>) => {
 						if (e.key === "Enter") {
 							e.preventDefault();
 							props.onSearch(props.searchQuery);
