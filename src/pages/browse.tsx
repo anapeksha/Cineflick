@@ -13,8 +13,13 @@ const Browse = (props: any) => {
 	const [searchResults, setSearchResults] = useState([]);
 	const router = useRouter();
 
-	const handleSearch = (query: string) => {
+	const searchQueryMaker: string = (query: string) => {
 		var searchQuery = query.split(" ").join("+");
+		return searchQuery;
+	};
+
+	const handleSearch = (query: string) => {
+		var searchQuery = searchQueryMaker(query);
 		router.replace(`browse?searchQuery=${searchQuery}&page=${page}`);
 	};
 
@@ -58,10 +63,11 @@ export default Browse;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	var { page, searchQuery } = context.query;
+	var data: any;
 	if (searchQuery) {
-		var data: any = await searchMovies(searchQuery, page);
+		data = await searchMovies(searchQuery, page);
 	} else {
-		var data: any = await trendingMovies(page || 1, "week");
+		data = await trendingMovies(page || 1, "week");
 	}
 	return {
 		props: { data: data, page: page },
