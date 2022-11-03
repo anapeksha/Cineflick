@@ -7,9 +7,13 @@ const searchMovies: any = (query: string, page: string) => {
 		{
 			method: "GET",
 		}
-	).then((response) => {
-		return response.data;
-	});
+	)
+		.then((response) => {
+			return response.data;
+		})
+		.catch((err) => {
+			return err;
+		});
 };
 
 export default searchMovies;

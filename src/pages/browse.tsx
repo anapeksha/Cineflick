@@ -1,16 +1,26 @@
-import BasicGrid from "../components/BasicGrid";
+import BasicCard from "../components/BasicCard";
 import SearchBar from "../components/SearchBar";
 import Paginate from "../components/Paginate";
+import ResponsiveDialog from "../components/ResponsiveDialog";
 import { useEffect, useState } from "react";
-import { handleImage, searchMovies, trendingMovies } from "../utils";
+import {
+	handleImage,
+	searchMovies,
+	trendingMovies,
+	getIMDB,
+	handleCredits,
+} from "../utils";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
+import { Grid } from "@mui/material";
 
 const Browse = (props: any) => {
 	const [query, setQuery] = useState("");
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(props.data.total_pages);
 	const [searchResults, setSearchResults] = useState([]);
+	const [modalData, setModalData] = useState({});
+	const [modalOpen, setModalOpen] = useState(false);
 	const router = useRouter();
 
 	var searchQueryMaker = (query: string): string => {
@@ -18,14 +28,20 @@ const Browse = (props: any) => {
 		return searchQuery;
 	};
 
-	const handleSearch = (query: string) => {
+	const refreshData = () => {
+		router.replace(router.asPath);
+	};
+
+	const handleInitialSearch = (query: string) => {
 		var searchQuery = searchQueryMaker(query);
-		router.replace(`browse?searchQuery=${searchQuery}&page=${page}`);
+		setPage(1);
+		router.replace(`browse?searchQuery=${searchQuery}&page=1`);
 	};
 
 	const handlePageRedirect = (page: number) => {
 		if (query !== "") {
-			handleSearch(query);
+			var searchQuery = searchQueryMaker(query);
+			router.replace(`browse?searchQuery=${searchQuery}&page=${page}`);
 		} else {
 			router.replace(`browse?page=${page}`);
 		}
@@ -34,6 +50,7 @@ const Browse = (props: any) => {
 	useEffect(() => {
 		setSearchResults(props.data.results);
 		setTotalPages(props.data.total_pages);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.data]);
 
 	useEffect(() => {
@@ -46,9 +63,39 @@ const Browse = (props: any) => {
 			<SearchBar
 				searchQuery={query}
 				setSearchQuery={setQuery}
-				onSearch={handleSearch}
+				onSearch={handleInitialSearch}
 			/>
-			<BasicGrid data={searchResults} />
+			<Grid
+				sx={{ flexGrow: 1, padding: "20px" }}
+				container
+				spacing={2.5}
+				columns={10}
+			>
+				{searchResults.map((d: any, i: number) => {
+					return (
+						<Grid item xs={5} sm={2.5} md={2} key={i}>
+							<BasicCard
+								altText={d.original_title}
+								image={handleImage(d.poster_path)}
+								title={d.title}
+								id={d.id}
+								handleClick={() => {
+									router.query.id = d.id;
+									router.replace(router);
+									setModalOpen(true);
+									setModalData(d);
+									refreshData();
+								}}
+							/>
+						</Grid>
+					);
+				})}
+			</Grid>
+			<ResponsiveDialog
+				data={modalData}
+				open={modalOpen}
+				setOpen={setModalOpen}
+			/>
 			<Paginate
 				page={page.toString()}
 				setPage={setPage}
@@ -61,14 +108,18 @@ const Browse = (props: any) => {
 export default Browse;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	var { page, searchQuery } = context.query;
+	var { page, searchQuery, id } = context.query;
 	var data: any;
+	var imdb: any;
 	if (searchQuery) {
 		data = await searchMovies(searchQuery, page);
 	} else {
 		data = await trendingMovies(page || 1, "week");
 	}
 	return {
-		props: { data: data, page: page },
+		props: {
+			data: data,
+			page: page,
+		},
 	};
 };
