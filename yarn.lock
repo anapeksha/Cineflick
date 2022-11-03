@@ -1019,6 +1019,7 @@ __metadata:
     eslint-config-next: 13.0.1
     next: 13.0.1
     react: 18.2.0
+    react-alice-carousel: ^2.6.4
     react-dom: 18.2.0
     typescript: 4.8.4
   languageName: unknown
@@ -2618,6 +2619,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-alice-carousel@npm:^2.6.4":
+  version: 2.6.4
+  resolution: "react-alice-carousel@npm:2.6.4"
+  dependencies:
+    vanilla-swipe: ^2.2.0
+  peerDependencies:
+    react: ">=15.4"
+  checksum: 998646634b36e15c0337f2031eafaf3c007bf4441ee016e3e049850c20f7d869b4bdb73c3906fccf746e637d889cf01c5e5044a64addcaa370852dcbff2cf1c4
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
@@ -3099,6 +3111,13 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: 5c639e0f8da3521d605f59ce5be9e094ca772bd44a4ce7322b055a6f58eeed8dda3c94cabd90c7a41fb6fa852210092008afe48f7038792fd47501f33299116a
+  languageName: node
+  linkType: hard
+
+"vanilla-swipe@npm:^2.2.0":
+  version: 2.4.1
+  resolution: "vanilla-swipe@npm:2.4.1"
+  checksum: d054fbf1c6acc705de5780c3e2ec69e5330c58daac188c38f6139623932fad9b42bdd718a1a115895bdf96cf49d447f6b36cda0a487f60d95d9e5f4420ec5e8c
   languageName: node
   linkType: hard
 
