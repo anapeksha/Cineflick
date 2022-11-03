@@ -1,8 +1,9 @@
 interface ICardProps {
-    altText: string;
+	altText: string;
 	image: string;
 	title: string;
-    id: string;
+	id: string;
+	handleClick: () => void;
 }
 
 export default ICardProps;
