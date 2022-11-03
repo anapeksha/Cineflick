@@ -8,7 +8,11 @@ import AnimatedCard from "../styles/AnimatedCard.style";
 
 const BasicCard: React.FC<ICardProps> = (props) => {
 	return (
-		<AnimatedCard sx={{ maxWidth: 345 }} elevation={6}>
+		<AnimatedCard
+			sx={{ maxWidth: 345 }}
+			elevation={6}
+			onClick={props.handleClick}
+		>
 			<CardActionArea>
 				<CardMedia
 					component="img"
