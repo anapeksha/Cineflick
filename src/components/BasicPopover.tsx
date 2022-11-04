@@ -39,13 +39,13 @@ const BasicPopover = (props: any) => {
 			open={open}
 			onClose={handleClose}
 			anchorEl={props.anchor}
-			anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-			transformOrigin={{ vertical: "top", horizontal: "center" }}
+			anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+			transformOrigin={{ vertical: "top", horizontal: "left" }}
 			TransitionComponent={Zoom}
 			elevation={12}
 		>
 			<Paper style={{ overflow: "auto" }}>
-				{props.found ? (
+				{props.found && props.data !== null ? (
 					<Stack
 						direction="row"
 						spacing={2}
