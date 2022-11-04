@@ -12,7 +12,7 @@ const Trending = (props: any) => {
 	const [modalOpen, setModalOpen] = React.useState(false);
 	const router = useRouter();
 	return (
-		<div>
+		<main>
 			<Grid
 				sx={{ flexGrow: 1, padding: "20px" }}
 				container
@@ -44,7 +44,7 @@ const Trending = (props: any) => {
 				setOpen={setModalOpen}
 				credits={props.credits}
 			/>
-		</div>
+		</main>
 	);
 };
 

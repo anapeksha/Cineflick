@@ -23,11 +23,6 @@ const listItems = [
 	{ title: "Browse", icon: <SearchIcon />, url: "browse?page=1" },
 ];
 
-const authItems = [
-	{ title: "Login", icon: <LoginIcon />, url: "login", display: true },
-	{ title: "Logout", icon: <LogoutIcon />, url: "logout", display: true },
-];
-
 const BasicDrawer: React.FC<IDrawerProps> = (props) => {
 	const router = useRouter();
 	const toggleDrawer =
@@ -58,17 +53,6 @@ const BasicDrawer: React.FC<IDrawerProps> = (props) => {
 						</ListItemButton>
 					</ListItem>
 				))}
-				<Divider />
-				{authItems.map((item, index) =>
-					item.display ? (
-						<ListItem key={index} disablePadding>
-							<ListItemButton onClick={() => router.push(item.url)}>
-								<ListItemIcon>{item.icon}</ListItemIcon>
-								<ListItemText primary={item.title} />
-							</ListItemButton>
-						</ListItem>
-					) : null
-				)}
 			</List>
 		</Box>
 	);

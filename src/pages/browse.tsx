@@ -59,7 +59,7 @@ const Browse = (props: any) => {
 	}, [page]);
 
 	return (
-		<div>
+		<main>
 			<SearchBar
 				searchQuery={query}
 				setSearchQuery={setQuery}
@@ -101,7 +101,7 @@ const Browse = (props: any) => {
 				setPage={setPage}
 				totalPages={totalPages}
 			/>
-		</div>
+		</main>
 	);
 };
 
@@ -110,7 +110,6 @@ export default Browse;
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	var { page, searchQuery, id } = context.query;
 	var data: any;
-	var imdb: any;
 	if (searchQuery) {
 		data = await searchMovies(searchQuery, page);
 	} else {

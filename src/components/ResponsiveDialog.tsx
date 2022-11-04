@@ -21,7 +21,7 @@ const ResponsiveDialog = (props: any) => {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 	const [anchorEl, setAnchorEl] = React.useState(null);
-	const [torrentData, setTorrentData] = React.useState({
+	const [torrentData, setTorrentData] = React.useState<any>({
 		imdb_rating: "",
 		torrents: [],
 		genres: [],
@@ -35,31 +35,31 @@ const ResponsiveDialog = (props: any) => {
 	};
 
 	const fetchData = async () => {
-		var imdb = await getIMDB(query.id);
-		if (imdb !== undefined) {
-			var torrent: any = await getYTS(imdb);
-			if (torrent !== undefined && torrent.data.movie.title !== null) {
-				setTorrentData({
-					imdb_rating: torrent.data.movie.rating,
-					torrents: torrent.data.movie.torrents,
-					genres: torrent.data.movie.genres,
-				});
-				setFound(true);
-			} else setFound(false);
+		if (query.id !== undefined) {
+			var imdb = await getIMDB(query.id);
+			if (imdb !== undefined) {
+				var torrent: any = await getYTS(imdb);
+				if (torrent !== undefined && torrent.data.movie.title !== null) {
+					setTorrentData({
+						imdb_rating: torrent.data.movie.rating,
+						torrents: torrent.data.movie.torrents,
+						genres: torrent.data.movie.genres,
+					});
+					setFound(true);
+				} else {
+					setTorrentData(null);
+					setFound(false);
+				}
+			}
 		}
 	};
 
 	React.useEffect(() => {
-		if (findTorrent) {
-			fetchData();
-			setFindTorrent(false);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [findTorrent]);
+		fetchData();
+	}, [props.open]);
 
 	const handleClick = (event: any) => {
 		setAnchorEl(anchorEl ? null : event.currentTarget);
-		setFindTorrent(true);
 	};
 
 	return (
@@ -95,7 +95,7 @@ const ResponsiveDialog = (props: any) => {
 					{props.data.title || props.data.original_title}
 				</DialogTitle>
 				<DialogContent>
-					<DialogContentText variant="subtitle1" style={{ color: "#c9cfcf" }}>
+					<DialogContentText variant="subtitle1">
 						<strong>
 							{(
 								props.data.first_air_date ||
@@ -108,10 +108,10 @@ const ResponsiveDialog = (props: any) => {
 							]
 						</strong>
 					</DialogContentText>
-					<DialogContentText variant="subtitle2" style={{ color: "#c9cfcf" }}>
+					<DialogContentText variant="subtitle2">
 						IMDb -{" "}
 						<strong>
-							{torrentData.imdb_rating
+							{torrentData !== null
 								? torrentData.imdb_rating + "★"
 								: "Not yet available"}
 						</strong>
@@ -119,16 +119,21 @@ const ResponsiveDialog = (props: any) => {
 					<DialogContentText
 						gutterBottom
 						variant="body2"
-						style={{ color: "#c9cfcf", fontWeight: 400, marginBottom: "2%" }}
+						style={{ fontWeight: 400, marginBottom: "2%" }}
 					>
-						{torrentData.genres.map((genre, i) => {
-							return genre + " ";
-						})}
+						{torrentData !== null &&
+							torrentData.genres.map((genre: any, i: number) => {
+								if (i !== torrentData.genres.length - 1) {
+									return genre + " ○ ";
+								} else {
+									return genre;
+								}
+							})}
 					</DialogContentText>
 					<DialogContentText>{props.data.overview}</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button autoFocus onClick={handleClick}>
+					<Button onClick={handleClick} color="inherit" variant="outlined" size="small">
 						Download
 					</Button>
 					<BasicPopover
