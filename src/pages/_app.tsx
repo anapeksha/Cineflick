@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 				/>
 				<link rel="manifest" href="/manifest.json" />
 				<link rel="apple-touch-icon" href="/logo512.png" />
-				<link rel="icon" href="/favicon.ico" />
+				<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 			</Head>
 			<Navbar
 				theme={theme}
