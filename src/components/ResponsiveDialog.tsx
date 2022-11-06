@@ -2,6 +2,8 @@ import * as React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import {
 	Button,
 	Dialog,
@@ -11,6 +13,8 @@ import {
 	DialogTitle,
 	IconButton,
 	Box,
+	Divider,
+	Tooltip,
 } from "@mui/material";
 import Image from "next/image";
 import { getIMDB, getYTS, handleImage } from "../utils";
@@ -56,8 +60,8 @@ const ResponsiveDialog = (props: any) => {
 
 	React.useEffect(() => {
 		fetchData();
-		
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.open]);
 
 	const handleClick = (event: any) => {
@@ -126,7 +130,7 @@ const ResponsiveDialog = (props: any) => {
 						{torrentData !== null &&
 							torrentData.genres.map((genre: any, i: number) => {
 								if (i !== torrentData.genres.length - 1) {
-									return genre + " ○ ";
+									return genre + " ● ";
 								} else {
 									return genre;
 								}
@@ -135,9 +139,20 @@ const ResponsiveDialog = (props: any) => {
 					<DialogContentText>{props.data.overview}</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleClick} color="inherit" variant="outlined" size="small">
-						Download
-					</Button>
+					<Tooltip title="Add to Watchlist">
+						<IconButton color="inherit" variant="outlined">
+							<FavoriteBorderRoundedIcon style={{ color: "red" }} />
+						</IconButton>
+					</Tooltip>
+					<Tooltip title="Download">
+						<IconButton
+							onClick={handleClick}
+							color="inherit"
+							variant="outlined"
+						>
+							<DownloadRoundedIcon />
+						</IconButton>
+					</Tooltip>
 					<BasicPopover
 						anchor={anchorEl}
 						setAnchor={setAnchorEl}
