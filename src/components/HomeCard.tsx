@@ -5,7 +5,11 @@ import { useRouter } from "next/router";
 
 const HomeCard = (props: any) => {
 	return (
-		<Card sx={{ maxWidth: 200, maxHeight: 340 }} elevation={6}>
+		<Card
+			sx={{ maxWidth: 200, maxHeight: 340 }}
+			elevation={6}
+			onClick={props.handleClick}
+		>
 			<CardActionArea>
 				<CardMedia>
 					<Image
