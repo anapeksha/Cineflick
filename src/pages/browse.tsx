@@ -1,7 +1,15 @@
 import BasicCard from "../components/BasicCard";
 import SearchBar from "../components/SearchBar";
 import Paginate from "../components/Paginate";
-import ResponsiveDialog from "../components/ResponsiveDialog";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+const ResponsiveDialog = dynamic(
+	() => import("../components/ResponsiveDialog"),
+	{
+		suspense: true,
+	}
+);
+import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
 import {
 	handleImage,
@@ -91,11 +99,13 @@ const Browse = (props: any) => {
 					);
 				})}
 			</Grid>
-			<ResponsiveDialog
-				data={modalData}
-				open={modalOpen}
-				setOpen={setModalOpen}
-			/>
+			<Suspense fallback={<Loader />}>
+				<ResponsiveDialog
+					data={modalData}
+					open={modalOpen}
+					setOpen={setModalOpen}
+				/>
+			</Suspense>
 			<Paginate
 				page={page.toString()}
 				setPage={setPage}
