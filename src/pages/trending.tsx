@@ -5,7 +5,15 @@ import { trendingMovies } from "../utils";
 import { handleImage } from "../utils";
 import { useRouter } from "next/router";
 import React from "react";
-import ResponsiveDialog from "../components/ResponsiveDialog";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+const ResponsiveDialog = dynamic(
+	() => import("../components/ResponsiveDialog"),
+	{
+		suspense: true,
+	}
+);
+import Loader from "../components/Loader";
 
 const Trending = (props: any) => {
 	const [modalData, setModalData] = React.useState({});
@@ -38,12 +46,13 @@ const Trending = (props: any) => {
 					);
 				})}
 			</Grid>
-			<ResponsiveDialog
-				data={modalData}
-				open={modalOpen}
-				setOpen={setModalOpen}
-				credits={props.credits}
-			/>
+			<Suspense fallback={<Loader />}>
+				<ResponsiveDialog
+					data={modalData}
+					open={modalOpen}
+					setOpen={setModalOpen}
+				/>
+			</Suspense>
 		</main>
 	);
 };

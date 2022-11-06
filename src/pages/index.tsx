@@ -3,9 +3,22 @@ import { GetServerSideProps } from "next";
 import { getTopRated, handleImage, getUpcoming } from "../utils";
 import HomeCard from "../components/HomeCard";
 import { useRouter } from "next/router";
+import * as React from "react";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+const ResponsiveDialog = dynamic(
+	() => import("../components/ResponsiveDialog"),
+	{
+		suspense: true,
+	}
+);
+import Loader from "../components/Loader";
 
 const Home = (props: any) => {
+	const [modalData, setModalData] = React.useState({});
+	const [modalOpen, setModalOpen] = React.useState(false);
 	const router = useRouter();
+
 	return (
 		<main>
 			<Box sx={{ p: 5 }}>
@@ -28,6 +41,12 @@ const Home = (props: any) => {
 									<HomeCard
 										image={handleImage(result.poster_path)}
 										altText={props.title}
+										handleClick={() => {
+											router.query.id = result.id;
+											router.replace(router);
+											setModalData(result);
+											setModalOpen(true);
+										}}
 									/>
 								</Grid>
 							);
@@ -54,6 +73,12 @@ const Home = (props: any) => {
 									<HomeCard
 										image={handleImage(result.poster_path)}
 										altText={props.title}
+										handleClick={() => {
+											router.query.id = result.id;
+											router.replace(router);
+											setModalData(result);
+											setModalOpen(true);
+										}}
 									/>
 								</Grid>
 							);
@@ -61,6 +86,13 @@ const Home = (props: any) => {
 					})}
 				</Grid>
 			</Box>
+			<Suspense fallback={<Loader />}>
+				<ResponsiveDialog
+					data={modalData}
+					open={modalOpen}
+					setOpen={setModalOpen}
+				/>
+			</Suspense>
 		</main>
 	);
 };

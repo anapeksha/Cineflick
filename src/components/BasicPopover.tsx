@@ -1,31 +1,13 @@
 import {
-	createTheme,
 	Divider,
 	Link,
 	Paper,
 	Popover,
 	Stack,
-	ThemeProvider,
 	Typography,
 	Zoom,
 } from "@mui/material";
 import React from "react";
-
-const theme = createTheme({
-	palette: {
-		primary: {
-			main: "#c9cfcf",
-		},
-		divider: "#d2dadf",
-		background: {
-			default: "#1f242d",
-			paper: "#1f242d",
-		},
-		text: {
-			primary: "#c9cfcf",
-		},
-	},
-});
 
 const BasicPopover = (props: any) => {
 	const handleClose = () => {
