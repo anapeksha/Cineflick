@@ -1,7 +1,4 @@
-import {
-	createTheme,
-	experimental_extendTheme as extendTheme,
-} from "@mui/material";
+import { createTheme } from "@mui/material";
 
 const lightTheme = createTheme({
 	palette: {
