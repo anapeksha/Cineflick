@@ -140,7 +140,7 @@ const ResponsiveDialog = (props: any) => {
 				<DialogContentText variant="subtitle1" fontWeight="bold">
 					Cast
 				</DialogContentText>
-				<Carousel id={query.id} />
+				<Carousel id={String(query.id)} />
 			</DialogContent>
 			<DialogActions>
 				<Tooltip title="Add to Watchlist" color="inherit">

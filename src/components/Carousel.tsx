@@ -4,19 +4,20 @@ import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { handleCredits, handleImage } from "../utils";
 import Image from "next/image";
+import ICarouselProps from "../interfaces/ICarouselProps";
 
-const Carousel = (props) => {
+const Carousel: React.FC<ICarouselProps> = (props) => {
 	const [credits, setCredits] = useState([]);
 
-	const handleDragStart = (e) => e.preventDefault();
+	const handleDragStart = (e: React.DragEvent) => e.preventDefault();
 
 	useEffect(() => {
-		handleCredits(props.id).then((data) => {
+		handleCredits(props.id).then((data: any) => {
 			setCredits(data.cast);
 		});
 	}, [props.id]);
 
-	const items = credits.map((credit, i) => (
+	const items = credits.map((credit: any, i: number) => (
 		<Box
 			style={{
 				display: "flex",
@@ -40,7 +41,7 @@ const Carousel = (props) => {
 						"rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
 				}}
 			/>
-			
+
 			<Typography variant="caption">{credit.name}</Typography>
 		</Box>
 	));
