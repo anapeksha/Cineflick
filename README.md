@@ -108,7 +108,7 @@ corepack enable
 5. Start the Development server
 
    ```sh
-   yarn start
+   yarn dev
    ```
 
 6. Create a production build
