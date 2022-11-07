@@ -1,34 +1,142 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div id="top"></div>
+<!--
+*** Thanks for checking out the Best-README-Template. If you have a suggestion
+*** that would make this better, please fork the repo and create a pull request
+*** or simply open an issue with the tag "enhancement".
+*** Don't forget to give the project a star!
+*** Thanks again! Now go create something AMAZING! :D
+-->
+
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
+
+[![MIT][license-shield]][license-url]
+!![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=cineflick)
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/anapeksha/cineflick">
+    <img src="assets/logo.png" alt="Logo" width="80" height="80" style="object-fit:contain">
+  </a>
+
+  <h3 align="center">Cineflick</h3>
+
+  <p align="center">
+    A web app to search and download torrents of most movies!
+    <br />
+    <br />
+    <a href="https://github.com/anapeksha/cineflick/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/anapeksha/cineflick/issues">Request Feature</a>
+  </p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#license">License</a></li>
+  </ol>
+</details>
+
+<!-- ABOUT THE PROJECT -->
+
+## About The Project
+
+[![Product Screen Shot][product-screenshot]](https://github.com/anapeksha/cineflick)
+
+<p align="right">(<a href="#top">Back to top</a>)</p>
+
+### Built With
+
+- [Next.js](https://nextjs.org)
+- [MUI](https://mui.com/)
+- [YTS API](https://yts.mx/api/)
+- [TMDB API](https://developers.themoviedb.org/3/getting-started/introduction/)
+
+<p align="right">(<a href="#top">Back to top</a>)</p>
+
+<!-- GETTING STARTED -->
 
 ## Getting Started
 
-First, run the development server:
+Instructions on how to set up the project.
 
-```bash
-npm run dev
-# or
-yarn dev
+### Prerequisites
+
+[Node.js](https://nodejs.org) v18.
+
+```sh
+corepack enable
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+1. Clone the repo
+   ```sh
+   git clone https://github.com/anapeksha/Finderbar.git
+   ```
+2. Install NPM packages
+   ```sh
+   yarn install
+   ```
+3. Configure [TMDB](https://www.themoviedb.org/) api key. Instructions [here](https://developers.themoviedb.org/3/getting-started/introduction)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+4. Configure the TMDB api key in `.env.local`, sample can be found in `.env.sample`
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+5. Start the Development server
 
-## Learn More
+   ```sh
+   yarn start
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+6. Create a production build
+   ```sh
+   yarn build
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<p align="right">(<a href="#top">Back to top</a>)</p>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<!-- USAGE EXAMPLES -->
 
-## Deploy on Vercel
+## Usage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The website can be used to checkup on movies and download their corresponding torrents.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<p align="right">(<a href="#top">Back to top</a>)</p>
+
+<!-- LICENSE -->
+
+## License
+
+Distributed under the GPL 3.0 License. See `LICENSE` for more information.
+
+<p align="right">(<a href="#top">Back to top</a>)</p>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[license-shield]: https://img.shields.io/github/license/anapeksha/cineflick.svg
+[license-url]: https://github.com/anapeksha/cineflick/blob/main/LICENSE
+[product-screenshot]: https://github.com/anapeksha/cineflick/blob/main/product_assets/screenshot.png

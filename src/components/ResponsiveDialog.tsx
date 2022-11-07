@@ -139,17 +139,13 @@ const ResponsiveDialog = (props: any) => {
 					<DialogContentText>{props.data.overview}</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Tooltip title="Add to Watchlist">
-						<IconButton color="inherit" variant="outlined">
+					<Tooltip title="Add to Watchlist" color="inherit">
+						<IconButton color="inherit">
 							<FavoriteBorderRoundedIcon style={{ color: "red" }} />
 						</IconButton>
 					</Tooltip>
 					<Tooltip title="Download">
-						<IconButton
-							onClick={handleClick}
-							color="inherit"
-							variant="outlined"
-						>
+						<IconButton onClick={handleClick} color="inherit">
 							<DownloadRoundedIcon />
 						</IconButton>
 					</Tooltip>
