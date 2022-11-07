@@ -16,14 +16,14 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 
-[![MIT][license-shield]][license-url]
-!![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=cineflick)
+[![GPL3.0][license-shield]][license-url]
+![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=cineflick)
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/anapeksha/cineflick">
-    <img src="assets/logo.png" alt="Logo" width="80" height="80" style="object-fit:contain">
+    <img src="product_assets/logo.png" alt="Logo" width="80" height="80" style="object-fit:contain">
   </a>
 
   <h3 align="center">Cineflick</h3>
