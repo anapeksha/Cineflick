@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 const HomeCard = (props: any) => {
 	return (
 		<Card
-			sx={{ maxWidth: 200, maxHeight: 340 }}
+			sx={{ maxWidth: 150, maxHeight: 250 }}
 			elevation={6}
 			onClick={props.handleClick}
 		>
@@ -15,8 +15,9 @@ const HomeCard = (props: any) => {
 					<Image
 						src={props.image}
 						alt={props.altText}
-						width="200"
-						height="340"
+						width="150"
+						height="250"
+						style={{ objectFit: "cover" }}
 					/>
 				</CardMedia>
 			</CardActionArea>
