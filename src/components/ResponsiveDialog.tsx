@@ -20,6 +20,7 @@ import Image from "next/image";
 import { getIMDB, getYTS, handleImage } from "../utils";
 import { useRouter } from "next/router";
 import BasicPopover from "./BasicPopover";
+import Carousel from "./Carousel";
 
 const ResponsiveDialog = (props: any) => {
 	const theme = useTheme();
@@ -75,88 +76,90 @@ const ResponsiveDialog = (props: any) => {
 			onClose={handleClose}
 			aria-labelledby="responsive-dialog-title"
 		>
-			<Box>
-				<DialogActions style={{ display: "flex", justifyContent: "start" }}>
-					<IconButton onClick={handleClose}>
-						<CloseRoundedIcon fontSize="small" />
-					</IconButton>
-				</DialogActions>
-				<Box
-					style={{
-						position: "relative",
-						width: "100%",
-						paddingBottom: "50%",
-					}}
-				>
-					<Image
-						src={handleImage(
-							props.data.backdrop_path || props.data.poster_path
-						)}
-						alt={props.data.title}
-						fill
-						style={{ objectFit: "cover" }}
-					/>
-				</Box>
-				<DialogTitle id="responsive-dialog-title" display="flex">
-					{props.data.title || props.data.original_title}
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText variant="subtitle1">
-						<strong>
-							{(
-								props.data.first_air_date ||
-								props.data.release_date ||
-								"-----"
-							).substring(0, 4)}{" "}
-							[
-							{props.data.original_language &&
-								props.data.original_language.toUpperCase()}
-							]
-						</strong>
-					</DialogContentText>
-					<DialogContentText variant="subtitle2">
-						IMDb -{" "}
-						<strong>
-							{torrentData !== null
-								? torrentData.imdb_rating + "★"
-								: "Not yet available"}
-						</strong>
-					</DialogContentText>
-					<DialogContentText
-						gutterBottom
-						variant="body2"
-						style={{ fontWeight: 400, marginBottom: "2%" }}
-					>
-						{torrentData !== null &&
-							torrentData.genres.map((genre: any, i: number) => {
-								if (i !== torrentData.genres.length - 1) {
-									return genre + " ● ";
-								} else {
-									return genre;
-								}
-							})}
-					</DialogContentText>
-					<DialogContentText>{props.data.overview}</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Tooltip title="Add to Watchlist" color="inherit">
-						<IconButton color="inherit">
-							<FavoriteBorderRoundedIcon style={{ color: "red" }} />
-						</IconButton>
-					</Tooltip>
-					<Tooltip title="Download">
-						<IconButton onClick={handleClick} color="inherit">
-							<DownloadRoundedIcon />
-						</IconButton>
-					</Tooltip>
-					<BasicPopover
-						anchor={anchorEl}
-						setAnchor={setAnchorEl}
-						data={torrentData}
-						found={found}
-					/>
-				</DialogActions>
+			<DialogActions style={{ display: "flex", justifyContent: "start" }}>
+				<IconButton onClick={handleClose}>
+					<CloseRoundedIcon fontSize="small" />
+				</IconButton>
+			</DialogActions>
+			<Box
+				style={{
+					position: "relative",
+					width: "100%",
+					paddingBottom: "50%",
+				}}
+			>
+				<Image
+					src={handleImage(props.data.backdrop_path || props.data.poster_path)}
+					alt={props.data.title}
+					fill
+					style={{ objectFit: "cover" }}
+				/>
 			</Box>
+			<DialogTitle id="responsive-dialog-title" display="flex">
+				{props.data.title || props.data.original_title}
+			</DialogTitle>
+			<DialogContent>
+				<DialogContentText variant="subtitle1">
+					<strong>
+						{(
+							props.data.first_air_date ||
+							props.data.release_date ||
+							"-----"
+						).substring(0, 4)}{" "}
+						[
+						{props.data.original_language &&
+							props.data.original_language.toUpperCase()}
+						]
+					</strong>
+				</DialogContentText>
+				<DialogContentText variant="subtitle2">
+					IMDb -{" "}
+					<strong>
+						{torrentData !== null
+							? torrentData.imdb_rating + "★"
+							: "Not yet available"}
+					</strong>
+				</DialogContentText>
+				<DialogContentText
+					gutterBottom
+					variant="body2"
+					style={{ fontWeight: 400, marginBottom: "2%" }}
+				>
+					{torrentData !== null &&
+						torrentData.genres.map((genre: any, i: number) => {
+							if (i !== torrentData.genres.length - 1) {
+								return genre + " ● ";
+							} else {
+								return genre;
+							}
+						})}
+				</DialogContentText>
+				<DialogContentText sx={{ mb: "20px" }}>
+					{props.data.overview}
+				</DialogContentText>
+				<DialogContentText variant="subtitle1" fontWeight="bold">
+					Cast
+				</DialogContentText>
+				<Carousel id={query.id} />
+			</DialogContent>
+			<DialogActions>
+				<Tooltip title="Add to Watchlist" color="inherit">
+					<IconButton color="inherit">
+						<FavoriteBorderRoundedIcon style={{ color: "red" }} />
+					</IconButton>
+				</Tooltip>
+				<Tooltip title="Download">
+					<IconButton onClick={handleClick} color="inherit">
+						<DownloadRoundedIcon />
+					</IconButton>
+				</Tooltip>
+				<BasicPopover
+					anchor={anchorEl}
+					setAnchor={setAnchorEl}
+					data={torrentData}
+					found={found}
+				/>
+			</DialogActions>
 		</Dialog>
 	);
 };
