@@ -62,7 +62,7 @@ const Home = (props: any) => {
 							<Grid item xs={3} sm={2} md={1} key={i}>
 								<HomeCard
 									image={handleImage(result.poster_path)}
-									altText={props.title}
+									altText={result.original_title || result.title}
 									handleClick={() => {
 										router.query.id = result.id;
 										router.replace(router);
@@ -93,7 +93,7 @@ const Home = (props: any) => {
 								<Grid item xs={3} sm={2} md={1} key={i}>
 									<HomeCard
 										image={handleImage(result.poster_path)}
-										altText={props.title}
+										altText={result.original_title || result.title}
 										handleClick={() => {
 											router.query.id = result.id;
 											router.replace(router);
