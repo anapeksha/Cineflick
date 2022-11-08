@@ -18,6 +18,29 @@ const Home = (props: any) => {
 	const [modalData, setModalData] = React.useState({});
 	const [modalOpen, setModalOpen] = React.useState(false);
 	const router = useRouter();
+	const [upcomingData, setUpcomingData]: Array<any> = React.useState([]);
+	const [topRatedData, setTopRatedData]: Array<any> = React.useState([]);
+
+	const createNewArray = (arr: Array<any>) => {
+		var results: Array<any> = [],
+			temp: Array<number> = [],
+			rand: number,
+			i = 0;
+		while (i != 6) {
+			rand = Math.floor(Math.random() * arr.length);
+			if (!temp.includes(rand)) {
+				temp.push(rand);
+				results.push(arr[rand]);
+				i++;
+			}
+		}
+		return results;
+	};
+
+	React.useEffect(() => {
+		setUpcomingData(createNewArray(props.upcomingMoviesData.results));
+		setTopRatedData(createNewArray(props.topMoviesData.results));
+	}, []);
 
 	return (
 		<main>
@@ -34,23 +57,21 @@ const Home = (props: any) => {
 					spacing={3}
 					columns={6}
 				>
-					{props.topMoviesData.results.map((result: any, i: number) => {
-						if (i < 6) {
-							return (
-								<Grid item xs={3} sm={2} md={1} key={i}>
-									<HomeCard
-										image={handleImage(result.poster_path)}
-										altText={props.title}
-										handleClick={() => {
-											router.query.id = result.id;
-											router.replace(router);
-											setModalData(result);
-											setModalOpen(true);
-										}}
-									/>
-								</Grid>
-							);
-						}
+					{topRatedData.map((result: any, i: number) => {
+						return (
+							<Grid item xs={3} sm={2} md={1} key={i}>
+								<HomeCard
+									image={handleImage(result.poster_path)}
+									altText={result.original_title || result.title}
+									handleClick={() => {
+										router.query.id = result.id;
+										router.replace(router);
+										setModalData(result);
+										setModalOpen(true);
+									}}
+								/>
+							</Grid>
+						);
 					})}
 				</Grid>
 				<Divider variant="middle" flexItem sx={{}} />
@@ -66,13 +87,13 @@ const Home = (props: any) => {
 					spacing={2.5}
 					columns={6}
 				>
-					{props.upcomingMoviesData.results.map((result: any, i: number) => {
+					{upcomingData.map((result: any, i: number) => {
 						if (i < 6) {
 							return (
 								<Grid item xs={3} sm={2} md={1} key={i}>
 									<HomeCard
 										image={handleImage(result.poster_path)}
-										altText={props.title}
+										altText={result.original_title || result.title}
 										handleClick={() => {
 											router.query.id = result.id;
 											router.replace(router);

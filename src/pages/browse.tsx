@@ -83,7 +83,7 @@ const Browse = (props: any) => {
 					return (
 						<Grid item xs={5} sm={2.5} md={2} key={i}>
 							<BasicCard
-								altText={d.original_title}
+								altText={d.original_title || d.title}
 								image={handleImage(d.poster_path)}
 								title={d.title}
 								id={d.id}
@@ -123,7 +123,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (searchQuery) {
 		data = await searchMovies(searchQuery, page);
 	} else {
-		data = await trendingMovies(page || 1, "week");
+		data = await trendingMovies(page || 1, "day");
 	}
 	return {
 		props: {
