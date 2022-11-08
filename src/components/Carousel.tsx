@@ -22,21 +22,20 @@ const Carousel: React.FC<ICarouselProps> = (props) => {
 			style={{
 				display: "flex",
 				flexDirection: "column",
-				objectFit: "contain",
 				padding: "20px",
 			}}
 			key={i}
 		>
 			<Image
 				src={handleImage(credit.profile_path)}
-				alt={credit?.name}
+				alt={credit.name}
 				onDragStart={handleDragStart}
 				width="65"
 				height="90"
 				style={{
 					borderRadius: "5px",
 					marginBottom: "5px",
-					objectFit: "contain",
+					objectFit: "cover",
 					boxShadow:
 						"rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
 				}}
