@@ -123,7 +123,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (searchQuery) {
 		data = await searchMovies(searchQuery, page);
 	} else {
-		data = await trendingMovies(page || 1, "day");
+		data = await trendingMovies(page || 1, "week");
 	}
 	return {
 		props: {
