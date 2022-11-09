@@ -44,6 +44,7 @@ const ResponsiveDialog = (props: any) => {
 			var imdb = await getIMDB(query.id);
 			if (imdb !== undefined) {
 				var torrent: any = await getYTS(imdb);
+				console.log(torrent);
 				if (torrent !== undefined && torrent.data.movie.title !== null) {
 					setTorrentData({
 						imdb_rating: torrent.data.movie.rating,
