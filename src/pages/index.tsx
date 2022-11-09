@@ -38,8 +38,20 @@ const Home = (props: any) => {
 	};
 
 	React.useEffect(() => {
-		setUpcomingData(createNewArray(props.upcomingMoviesData.results));
-		setTopRatedData(createNewArray(props.topMoviesData.results));
+		var data: any = sessionStorage.getItem("data");
+		if (data) {
+			data = JSON.parse(data);
+			setUpcomingData(data.upcoming);
+			setTopRatedData(data.topRated);
+		} else {
+			var tempData = {
+				upcoming: createNewArray(props.upcomingMoviesData.results),
+				topRated: createNewArray(props.topMoviesData.results),
+			};
+			sessionStorage.setItem("data", JSON.stringify(tempData));
+			setUpcomingData(tempData.upcoming);
+			setTopRatedData(tempData.topRated);
+		}
 	}, []);
 
 	return (
