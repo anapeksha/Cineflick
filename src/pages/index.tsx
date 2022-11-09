@@ -38,8 +38,9 @@ const Home = (props: any) => {
 	};
 
 	React.useEffect(() => {
-		var data = JSON.parse(sessionStorage.getItem("data"));
+		var data: any = sessionStorage.getItem("data");
 		if (data) {
+			data = JSON.parse(data);
 			setUpcomingData(data.upcoming);
 			setTopRatedData(data.topRated);
 		} else {
