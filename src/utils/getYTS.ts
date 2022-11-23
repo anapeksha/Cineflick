@@ -1,9 +1,8 @@
 import axios from "axios";
 
 const getYTS: any = (query: string) => {
-	return axios(`/api/getYTS?movieQuery=${query}`, {
-		method: "GET",
-	})
+	return axios
+		.get(`/api/getYTS?movieQuery=${query}`)
 		.then((response) => {
 			return response.data;
 		})
