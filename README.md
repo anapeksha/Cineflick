@@ -103,7 +103,7 @@ corepack enable
    ```
 3. Configure [TMDB](https://www.themoviedb.org/) api key. Instructions [here](https://developers.themoviedb.org/3/getting-started/introduction)
 
-4. Configure the TMDB api key in `.env.local`, sample can be found in `.env.sample`
+4. Configure the TMDB api key in `.env`, sample can be found in `.env.sample`
 
 5. Start the Development server
 
