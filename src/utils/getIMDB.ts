@@ -1,12 +1,15 @@
 import axios from "axios";
-import { API_KEY } from "../uri";
 
 const getIMDB: any = (id: string) => {
-	return axios(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`, {
+	return axios(`/api/getIMDB?id=${id}`, {
 		method: "GET",
-	}).then((response) => {
-		return response.data.imdb_id;
-	});
+	})
+		.then((response) => {
+			return response.data.imdb_id;
+		})
+		.catch((err) => {
+			return err;
+		});
 };
 
 export default getIMDB;

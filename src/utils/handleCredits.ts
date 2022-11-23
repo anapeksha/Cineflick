@@ -1,15 +1,15 @@
 import axios from "axios";
-import { API_KEY } from "../uri";
 
-const handleCredits:any = (id: string) => {
-	return axios(
-		`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`,
-		{
-			method: "GET",
-		}
-	).then((response) => {
-		return response.data;
-	});
+const handleCredits: any = (id: string) => {
+	return axios(`/api/getCredits?id=${id}`, {
+		method: "GET",
+	})
+		.then((response) => {
+			return response.data;
+		})
+		.catch((err) => {
+			return err;
+		});
 };
 
 export default handleCredits;
