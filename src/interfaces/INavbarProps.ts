@@ -6,6 +6,7 @@ interface INavbarProps {
 	setTheme: React.Dispatch<React.SetStateAction<Theme>>;
 	drawerOpen: boolean;
 	setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	isAuthenticated: boolean;
 }
 
 export default INavbarProps;

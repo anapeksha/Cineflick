@@ -8,13 +8,28 @@ import {
 	MenuItem,
 	Toolbar,
 	Typography,
+	Tooltip,
 } from "@mui/material";
 import React, { useState } from "react";
 import INavbarProps from "../interfaces/INavbarProps";
 import ThemeSwitch from "../styles/ThemeSwitch.style";
 import { darkTheme, lightTheme } from "../utils/theme";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+import logout from "../utils/auth/logout";
+import { useRouter } from "next/router";
 
 const Navbar: React.FC<INavbarProps> = (props) => {
+	const router = useRouter();
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">
@@ -36,19 +51,79 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 					>
 						CINEFLICK
 					</Typography>
-					<ThemeSwitch
-						sx={{ m: 1 }}
-						theme={props.theme}
-						value={props.theme}
-						defaultChecked
-						onChange={() => {
-							if (props.theme === lightTheme) {
-								props.setTheme(darkTheme);
-							} else {
-								props.setTheme(lightTheme);
-							}
-						}}
-					/>
+					{props.theme === lightTheme ? (
+						<Tooltip title="Light">
+							<ThemeSwitch
+								sx={{ m: 1 }}
+								theme={props.theme}
+								value={props.theme}
+								onChange={() => {
+									if (props.theme === lightTheme) {
+										props.setTheme(darkTheme);
+										localStorage.setItem("theme", "dark");
+									} else if (props.theme === darkTheme) {
+										props.setTheme(lightTheme);
+										localStorage.setItem("theme", "light");
+									}
+								}}
+							/>
+						</Tooltip>
+					) : (
+						<Tooltip title="Dark">
+							<ThemeSwitch
+								sx={{ m: 1 }}
+								theme={props.theme}
+								value={props.theme}
+								checked
+								onChange={() => {
+									if (props.theme === lightTheme) {
+										props.setTheme(darkTheme);
+										localStorage.setItem("theme", "dark");
+									} else if (props.theme === darkTheme) {
+										props.setTheme(lightTheme);
+										localStorage.setItem("theme", "light");
+									}
+								}}
+							/>
+						</Tooltip>
+					)}
+					{props.isAuthenticated ? (
+						<>
+							<Tooltip title="Profile">
+								<IconButton
+									color="inherit"
+									size="large"
+									aria-haspopup="true"
+									onClick={handleMenu}
+								>
+									<AccountCircle />
+								</IconButton>
+							</Tooltip>
+							<Menu
+								anchorEl={anchorEl}
+								anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+								keepMounted
+								transformOrigin={{
+									vertical: "top",
+									horizontal: "center",
+								}}
+								open={Boolean(anchorEl)}
+								onClose={handleClose}
+							>
+								<MenuItem onClick={() => router.push("/users/123/dashboard")}>
+									Profile
+								</MenuItem>
+								<MenuItem
+									onClick={() => {
+										logout();
+										window.location.href = "/";
+									}}
+								>
+									Logout
+								</MenuItem>
+							</Menu>
+						</>
+					) : null}
 				</Toolbar>
 			</AppBar>
 		</Box>
