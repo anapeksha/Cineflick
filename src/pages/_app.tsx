@@ -1,14 +1,35 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BasicDrawer from "../components/BasicDrawer";
 import Navbar from "../components/Navbar";
-import { darkTheme } from "../utils/theme";
+import isAuthenticated from "../utils/auth/isAuthenticated";
+import { darkTheme, lightTheme } from "../utils/theme";
 
 export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [theme, setTheme] = useState(darkTheme);
 	const [drawerOpen, setDrawerOpen] = useState(false);
+	const [authenticated, setAuthenticated] = useState(false);
+
+	useEffect(() => {
+		var localTheme = localStorage.getItem("theme");
+		if (localTheme) {
+			if (localTheme === "dark") {
+				setTheme(darkTheme);
+			} else if (localTheme === "light") {
+				setTheme(lightTheme);
+			}
+		} else {
+			localStorage.setItem("theme", "dark");
+			setTheme(darkTheme);
+		}
+	}, []);
+
+	useEffect(() => {
+		var localAuthenticated = isAuthenticated();
+		setAuthenticated(localAuthenticated);
+	}, [authenticated]);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -30,8 +51,13 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 				setTheme={setTheme}
 				drawerOpen={drawerOpen}
 				setDrawerOpen={setDrawerOpen}
+				isAuthenticated={authenticated}
 			/>
-			<BasicDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+			<BasicDrawer
+				drawerOpen={drawerOpen}
+				setDrawerOpen={setDrawerOpen}
+				isAuthenticated={authenticated}
+			/>
 			<Component {...pageProps} />
 		</ThemeProvider>
 	);

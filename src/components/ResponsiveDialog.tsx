@@ -21,6 +21,7 @@ import { getIMDB, getYTS, handleImage } from "../utils";
 import { useRouter } from "next/router";
 import BasicPopover from "./BasicPopover";
 import Carousel from "./Carousel";
+import isAuthenticated from "../utils/auth/isAuthenticated";
 
 const ResponsiveDialog = (props: any) => {
 	const theme = useTheme();
@@ -33,6 +34,7 @@ const ResponsiveDialog = (props: any) => {
 	});
 	const [findTorrent, setFindTorrent] = React.useState(false);
 	const [found, setFound] = React.useState(false);
+	const [authenticated, setAuthenticated] = React.useState(false);
 	const { query } = useRouter();
 
 	const handleClose = () => {
@@ -65,6 +67,10 @@ const ResponsiveDialog = (props: any) => {
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.open]);
+
+	React.useEffect(() => {
+		setAuthenticated(isAuthenticated());
+	}, [authenticated]);
 
 	const handleClick = (event: any) => {
 		setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -144,11 +150,13 @@ const ResponsiveDialog = (props: any) => {
 				<Carousel id={String(query.id)} />
 			</DialogContent>
 			<DialogActions>
-				<Tooltip title="Add to Watchlist" color="inherit">
-					<IconButton color="inherit">
-						<FavoriteBorderRoundedIcon style={{ color: "red" }} />
-					</IconButton>
-				</Tooltip>
+				{authenticated ? (
+					<Tooltip title="Add to Watchlist" color="inherit">
+						<IconButton color="inherit">
+							<FavoriteBorderRoundedIcon style={{ color: "red" }} />
+						</IconButton>
+					</Tooltip>
+				) : null}
 				<Tooltip title="Download">
 					<IconButton onClick={handleClick} color="inherit">
 						<DownloadRoundedIcon />
