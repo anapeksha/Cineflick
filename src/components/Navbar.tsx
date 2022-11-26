@@ -12,10 +12,10 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import INavbarProps from "../interfaces/INavbarProps";
-import ThemeSwitch from "../styles/ThemeSwitch.style";
-import { darkTheme, lightTheme } from "../utils/theme";
+import ThemeSwitch from "../lib/styles/ThemeSwitch.style";
+import { darkTheme, lightTheme } from "../lib/theme/theme";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
-import logout from "../utils/auth/logout";
+import logout from "../lib/auth/logout";
 import { useRouter } from "next/router";
 
 const Navbar: React.FC<INavbarProps> = (props) => {
@@ -116,7 +116,6 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 								<MenuItem
 									onClick={() => {
 										logout();
-										window.location.href = "/";
 									}}
 								>
 									Logout

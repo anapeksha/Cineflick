@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_KEY } from "../uri";
+import { API_KEY } from "../../uri";
 
 const trendingMovies: any = (page: string, timeDuration: string) => {
 	return axios

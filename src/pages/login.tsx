@@ -1,13 +1,25 @@
 import React, { useState } from "react";
 import { AlertColor, Box } from "@mui/material";
 import Form from "../components/Form";
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import CustomAlert from "../components/CustomAlert";
 import { useRouter } from "next/router";
 
 const fields = [
-	{ label: "Email Address", name: "email", autocomplete: "email" },
-	{ label: "Password", name: "password", autocomplete: "current-password" },
+	{
+		label: "email or username",
+		name: "username",
+		autocomplete: "email",
+		autofocus: true,
+		type: "text",
+	},
+	{
+		label: "password",
+		name: "password",
+		autocomplete: "current-password",
+		autofocus: false,
+		type: "password",
+	},
 ];
 
 var alert: AlertColor = "error";
@@ -19,17 +31,16 @@ const Login = () => {
 	const router = useRouter();
 
 	const login = async (
-		email: FormDataEntryValue | null,
+		username: FormDataEntryValue | null,
 		password: FormDataEntryValue | null
 	) => {
 		try {
-			const response = await axios.post(`/api/login`, {
-				email: email,
+			const response = await axios.post(`/api/auth/login`, {
+				username: username,
 				password: password,
 			});
 			if (response.status === 200) {
 				alert = "success";
-				localStorage.setItem("token", JSON.stringify(response.data.token));
 				setOpen(true);
 				setMessage("Logged in, redirecting...");
 				setVariant(alert);
@@ -54,9 +65,9 @@ const Login = () => {
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		const email = data.get("email");
+		const username = data.get("username");
 		const password = data.get("password");
-		login(email, password);
+		login(username, password);
 	};
 
 	return (

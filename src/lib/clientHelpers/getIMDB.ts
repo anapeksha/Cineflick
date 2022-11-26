@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_KEY } from "../uri";
+import { API_KEY } from "../../uri";
 
 const getIMDB: any = (id: string) => {
 	return axios

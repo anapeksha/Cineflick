@@ -11,13 +11,11 @@ const ResponsiveDialog = dynamic(
 );
 import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
-import {
-	handleImage,
-	searchMovies,
-	trendingMovies,
-	getIMDB,
-	handleCredits,
-} from "../utils";
+import handleImage from "../lib/clientHelpers/handleImage";
+import searchMovies from "../lib/clientHelpers/searchMovies";
+import trendingMovies from "../lib/clientHelpers/getTrending";
+import getIMDB from "../lib/clientHelpers/getIMDB";
+import handleCredits from "../lib/clientHelpers/handleCredits";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { Grid } from "@mui/material";

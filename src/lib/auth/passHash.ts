@@ -1,13 +1,12 @@
-const bcrypt = require("bcrypt");
-import { SALT } from "../../uri";
+import bcrypt from "bcrypt";
 
 const comparePass = async (password: string, encryPassword: string) => {
 	if (await bcrypt.compare(password, encryPassword)) return true;
 	else return false;
 };
 
-const createHash = async (password: string) => {
-	const encryptedPassword = await bcrypt.hash(password, parseInt(SALT!));
+const createHash = async (password: string, saltRound: number) => {
+	const encryptedPassword = await bcrypt.hash(password, saltRound);
 	return encryptedPassword;
 };
 
