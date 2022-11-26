@@ -1,8 +1,8 @@
 import { GetServerSideProps } from "next";
 import BasicCard from "../components/BasicCard";
 import { Grid } from "@mui/material";
-import { trendingMovies } from "../utils";
-import { handleImage } from "../utils";
+import trendingMovies from "../lib/clientHelpers/getTrending";
+import handleImage from "../lib/clientHelpers/handleImage";
 import { useRouter } from "next/router";
 import React from "react";
 import dynamic from "next/dynamic";

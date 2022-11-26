@@ -2,7 +2,8 @@ import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import { handleCredits, handleImage } from "../utils";
+import handleCredits from "../lib/clientHelpers/handleCredits";
+import handleImage from "../lib/clientHelpers/handleImage";
 import Image from "next/image";
 import ICarouselProps from "../interfaces/ICarouselProps";
 

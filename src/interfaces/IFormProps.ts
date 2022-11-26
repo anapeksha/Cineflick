@@ -4,6 +4,8 @@ interface fields {
 	label: string;
 	name: string;
 	autocomplete: string;
+	autofocus: boolean;
+	type: string;
 }
 
 interface IFormProps {
@@ -13,4 +15,4 @@ interface IFormProps {
 	handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export default IFormProps;
+export { IFormProps, fields };

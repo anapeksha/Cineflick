@@ -4,7 +4,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import ICardProps from "../interfaces/ICardProps";
-import AnimatedBasicCard from "../styles/AnimatedBasicCard.style";
+import AnimatedBasicCard from "../lib/styles/AnimatedBasicCard.style";
 import Image from "next/image";
 
 const BasicCard: React.FC<ICardProps> = (props) => {

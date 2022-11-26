@@ -17,11 +17,13 @@ import {
 	Tooltip,
 } from "@mui/material";
 import Image from "next/image";
-import { getIMDB, getYTS, handleImage } from "../utils";
+import getIMDB from "../lib/clientHelpers/getIMDB";
+import getYTS from "../lib/clientHelpers/getYTS";
+import handleImage from "../lib/clientHelpers/handleImage";
 import { useRouter } from "next/router";
 import BasicPopover from "./BasicPopover";
 import Carousel from "./Carousel";
-import isAuthenticated from "../utils/auth/isAuthenticated";
+import isAuthenticated from "../lib/auth/isAuthenticated";
 
 const ResponsiveDialog = (props: any) => {
 	const theme = useTheme();
@@ -70,7 +72,7 @@ const ResponsiveDialog = (props: any) => {
 
 	React.useEffect(() => {
 		setAuthenticated(isAuthenticated());
-	}, [authenticated]);
+	}, []);
 
 	const handleClick = (event: any) => {
 		setAnchorEl(anchorEl ? null : event.currentTarget);

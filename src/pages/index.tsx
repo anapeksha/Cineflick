@@ -1,6 +1,8 @@
 import { Box, Typography, Grid, Divider } from "@mui/material";
 import { GetServerSideProps } from "next";
-import { getTopRated, handleImage, getUpcoming } from "../utils";
+import getTopRated from "../lib/clientHelpers/getTopRated";
+import getUpcoming from "../lib/clientHelpers/getUpcoming";
+import handleImage from "../lib/clientHelpers/handleImage";
 import HomeCard from "../components/HomeCard";
 import { useRouter } from "next/router";
 import * as React from "react";

@@ -1,13 +1,32 @@
 import React, { useState } from "react";
 import { AlertColor, Box } from "@mui/material";
 import Form from "../components/Form";
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import CustomAlert from "../components/CustomAlert";
 import { useRouter } from "next/router";
 
 const fields = [
-	{ label: "Email Address", name: "email", autocomplete: "email" },
-	{ label: "Password", name: "password", autocomplete: "new-password" },
+	{
+		label: "username",
+		name: "username",
+		autocomplete: "username",
+		autofocus: true,
+		type: "text",
+	},
+	{
+		label: "email",
+		name: "email",
+		autocomplete: "email",
+		autofocus: false,
+		type: "email",
+	},
+	{
+		label: "password",
+		name: "password",
+		autocomplete: "new-password",
+		autofocus: false,
+		type: "password",
+	},
 ];
 
 var alert: AlertColor = "error";
@@ -19,11 +38,13 @@ const Signup = () => {
 	const router = useRouter();
 
 	const signup = async (
+		username: FormDataEntryValue | null,
 		email: FormDataEntryValue | null,
 		password: FormDataEntryValue | null
 	) => {
 		try {
-			const response = await axios.post(`/api/signup`, {
+			const response = await axios.post(`/api/auth/signup`, {
+				username: username,
 				email: email,
 				password: password,
 			});
@@ -53,9 +74,10 @@ const Signup = () => {
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
+		const username = data.get("username");
 		const email = data.get("email");
 		const password = data.get("password");
-		signup(email, password);
+		signup(username, email, password);
 	};
 
 	return (

@@ -1,6 +1,6 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React from "react";
-import IFormProps from "../interfaces/IFormProps";
+import { IFormProps, fields } from "../interfaces/IFormProps";
 import Link from "next/link";
 
 const Form: React.FC<IFormProps> = (props) => {
@@ -11,18 +11,28 @@ const Form: React.FC<IFormProps> = (props) => {
 		>
 			<Typography variant="h5">{props.headerText}</Typography>
 			<Box component="form" onSubmit={props.handleSubmit} noValidate>
-				{props.formFields.map((field, i) => {
-					return (
+				{props.formFields.map((field: fields, i: number) => {
+					return field.autofocus ? (
 						<TextField
 							key={i}
 							margin="normal"
 							required
 							fullWidth
+							type={field.type}
 							label={field.label}
 							name={field.name}
-							type={field.name}
 							autoComplete={field.autocomplete}
-							autoFocus
+						/>
+					) : (
+						<TextField
+							key={i}
+							margin="normal"
+							required
+							fullWidth
+							type={field.type}
+							label={field.label}
+							name={field.name}
+							autoComplete={field.autocomplete}
 						/>
 					);
 				})}

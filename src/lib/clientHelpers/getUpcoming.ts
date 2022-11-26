@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_KEY } from "../uri";
+import { API_KEY } from "../../uri";
 
 const getUpcoming: any = () => {
 	return axios

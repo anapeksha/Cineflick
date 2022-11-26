@@ -1,11 +1,12 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import BasicDrawer from "../components/BasicDrawer";
 import Navbar from "../components/Navbar";
-import isAuthenticated from "../utils/auth/isAuthenticated";
-import { darkTheme, lightTheme } from "../utils/theme";
+import isAuthenticated from "../lib/auth/isAuthenticated";
+import { darkTheme, lightTheme } from "../lib/theme/theme";
+import Loader from "../components/Loader";
 
 export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [theme, setTheme] = useState(darkTheme);
@@ -26,10 +27,9 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		}
 	}, []);
 
-	useEffect(() => {
-		var localAuthenticated = isAuthenticated();
-		setAuthenticated(localAuthenticated);
-	}, [authenticated]);
+	useMemo(async () => {
+		setAuthenticated(await isAuthenticated());
+	}, []);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -58,6 +58,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 				setDrawerOpen={setDrawerOpen}
 				isAuthenticated={authenticated}
 			/>
+			<Loader />
 			<Component {...pageProps} />
 		</ThemeProvider>
 	);
