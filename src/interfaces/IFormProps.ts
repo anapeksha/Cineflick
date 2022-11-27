@@ -15,4 +15,4 @@ interface IFormProps {
 	handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export { IFormProps, fields };
+export default IFormProps;

@@ -9,12 +9,12 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<any>
 ) {
-	const saltRounds: number = parseInt(SALT_ROUNDS);
+	const salt = parseInt(SALT_ROUNDS as string);
 	await dbConnect();
 	const email = req.body.email;
 	const username = req.body.username;
 	const plainPassword = req.body.password;
-	const password = await createHash(plainPassword, saltRounds);
+	const password = await createHash(plainPassword, salt);
 	try {
 		const response = await User.create({
 			username: username,
