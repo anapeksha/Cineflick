@@ -5,9 +5,9 @@ const encodeToken = (data: any) => {
 	return sign(data, JWT_SECRET as Secret, { expiresIn: "24h" });
 };
 
-const decodeToken = async (token: string | undefined) => {
+const decodeToken = async (token: string) => {
 	try {
-		return await verify(token, JWT_SECRET as Secret);
+		return await verify(token!, JWT_SECRET as Secret);
 	} catch (err) {
 		return err;
 	}

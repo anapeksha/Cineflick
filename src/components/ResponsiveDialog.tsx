@@ -36,7 +36,7 @@ const ResponsiveDialog = (props: any) => {
 	});
 	const [findTorrent, setFindTorrent] = React.useState(false);
 	const [found, setFound] = React.useState(false);
-	const [authenticated, setAuthenticated] = React.useState(false);
+	const [authenticated, setAuthenticated] = React.useState<Promise<boolean>>();
 	const { query } = useRouter();
 
 	const handleClose = () => {
