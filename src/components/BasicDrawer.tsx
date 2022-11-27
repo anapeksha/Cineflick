@@ -18,7 +18,7 @@ import {
 import { useRouter } from "next/router";
 import React from "react";
 import IDrawerProps from "../interfaces/IDrawerProps";
-import logout from "../utils/auth/logout";
+import logout from "../lib/auth/logout";
 
 const BasicDrawer: React.FC<IDrawerProps> = (props) => {
 	const router = useRouter();
