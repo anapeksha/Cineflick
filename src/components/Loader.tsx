@@ -1,24 +1,20 @@
-import React, { useState } from "react";
-import { Backdrop, CircularProgress } from "@mui/material";
+import React from "react";
+import { Backdrop, CircularProgress, Box } from "@mui/material";
+import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 
 const Loader = () => {
-	const [open, setOpen] = React.useState(false);
+	const { isLoading, setIsLoading } = useAuthenticationContext();
 	const handleClose = () => {
-		setOpen(false);
-	};
-	const handleToggle = () => {
-		setOpen(!open);
+		setIsLoading(false);
 	};
 	return (
-		true && (
-			<Backdrop
-				sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				open={open}
-				onClick={handleClose}
-			>
-				<CircularProgress size="lg" color="inherit" />
-			</Backdrop>
-		)
+		<Backdrop
+			sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+			open={isLoading}
+			onClick={handleClose}
+		>
+			<CircularProgress color="inherit" />
+		</Backdrop>
 	);
 };
 

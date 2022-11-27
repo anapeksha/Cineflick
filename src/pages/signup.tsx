@@ -3,6 +3,7 @@ import { AlertColor, Box } from "@mui/material";
 import Form from "../components/Form";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import CustomAlert from "../components/CustomAlert";
+import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 import { useRouter } from "next/router";
 
 const fields = [
@@ -35,6 +36,7 @@ const Signup = () => {
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState("");
 	const [variant, setVariant] = useState<AlertColor | undefined>(alert);
+	const { setIsLoading } = useAuthenticationContext();
 	const router = useRouter();
 
 	const signup = async (
@@ -42,6 +44,7 @@ const Signup = () => {
 		email: FormDataEntryValue | null,
 		password: FormDataEntryValue | null
 	) => {
+		setIsLoading(true);
 		try {
 			const response = await axios.post(`/api/auth/signup`, {
 				username: username,
@@ -49,6 +52,7 @@ const Signup = () => {
 				password: password,
 			});
 			if (response.status === 200) {
+				setIsLoading(false);
 				alert = "success";
 				setOpen(true);
 				setMessage("Account created, please login...");
@@ -58,6 +62,7 @@ const Signup = () => {
 				}, 3000);
 			}
 		} catch (error: any) {
+			setIsLoading(false);
 			alert = "error";
 			if (error instanceof AxiosError || axios.isAxiosError(error)) {
 				setOpen(true);

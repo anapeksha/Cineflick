@@ -16,12 +16,18 @@ import {
 	ListItemText,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import IDrawerProps from "../interfaces/IDrawerProps";
 import logout from "../lib/auth/logout";
+import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 
 const BasicDrawer: React.FC<IDrawerProps> = (props) => {
 	const router = useRouter();
+	const { isAuthenticated } = useAuthenticationContext();
+
+	useEffect(() => {
+		console.log(isAuthenticated);
+	}, []);
 
 	const listItems = [
 		{ title: "Home", icon: <HomeIcon />, url: "/", visible: true },
@@ -41,7 +47,7 @@ const BasicDrawer: React.FC<IDrawerProps> = (props) => {
 			title: "Watchlist",
 			icon: <FavoriteRoundedIcon />,
 			url: "/watchlist",
-			visible: props.isAuthenticated,
+			visible: isAuthenticated,
 		},
 	];
 
@@ -50,13 +56,13 @@ const BasicDrawer: React.FC<IDrawerProps> = (props) => {
 			title: "Login",
 			icon: <LoginIcon />,
 			url: "/login",
-			visible: !props.isAuthenticated,
+			visible: !isAuthenticated,
 		},
 		{
 			title: "Signup",
 			icon: <CreateIcon />,
 			url: "/signup",
-			visible: !props.isAuthenticated,
+			visible: !isAuthenticated,
 		},
 	];
 
@@ -93,7 +99,7 @@ const BasicDrawer: React.FC<IDrawerProps> = (props) => {
 					}
 				})}
 			</List>
-			{!props.isAuthenticated ? (
+			{!isAuthenticated ? (
 				<>
 					<Divider />
 					<List>

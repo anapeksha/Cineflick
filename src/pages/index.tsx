@@ -15,6 +15,7 @@ const ResponsiveDialog = dynamic(
 	}
 );
 import Loader from "../components/Loader";
+import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 
 const Home = (props: any) => {
 	const [modalData, setModalData] = React.useState({});
@@ -22,6 +23,7 @@ const Home = (props: any) => {
 	const router = useRouter();
 	const [upcomingData, setUpcomingData]: Array<any> = React.useState([]);
 	const [topRatedData, setTopRatedData]: Array<any> = React.useState([]);
+	const { setIsAuthenticated } = useAuthenticationContext();
 
 	const createNewArray = (arr: Array<any>) => {
 		var results: Array<any> = [],
@@ -40,6 +42,7 @@ const Home = (props: any) => {
 	};
 
 	React.useEffect(() => {
+		setIsAuthenticated(props.isAuthenticated);
 		var data: any = sessionStorage.getItem("data");
 		if (data) {
 			data = JSON.parse(data);
@@ -136,12 +139,15 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	var { id } = context.query;
+	const { token } = context.req.cookies;
+	var loggedIn = token ? true : false;
 	var topMoviesData: any = await getTopRated();
 	var upcomingMoviesData: any = await getUpcoming();
 	return {
 		props: {
 			topMoviesData: topMoviesData,
 			upcomingMoviesData: upcomingMoviesData,
+			isAuthenticated: loggedIn,
 		},
 	};
 };

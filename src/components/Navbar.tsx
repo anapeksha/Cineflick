@@ -17,10 +17,12 @@ import { darkTheme, lightTheme } from "../lib/theme/theme";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import logout from "../lib/auth/logout";
 import { useRouter } from "next/router";
+import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 
 const Navbar: React.FC<INavbarProps> = (props) => {
 	const router = useRouter();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const { isAuthenticated, setIsAuthenticated } = useAuthenticationContext();
 
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -87,7 +89,7 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 							/>
 						</Tooltip>
 					)}
-					{props.isAuthenticated ? (
+					{isAuthenticated ? (
 						<>
 							<Tooltip title="Profile">
 								<IconButton
@@ -114,8 +116,10 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 									Profile
 								</MenuItem>
 								<MenuItem
-									onClick={() => {
-										logout();
+									onClick={async () => {
+										if (await logout()) {
+											setIsAuthenticated(false);
+										}
 									}}
 								>
 									Logout
