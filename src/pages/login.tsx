@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AlertColor, Box } from "@mui/material";
 import Form from "../components/Form";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import CustomAlert from "../components/CustomAlert";
 import { useRouter } from "next/router";
+import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 
 const fields = [
 	{
@@ -28,27 +29,32 @@ const Login = () => {
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState("");
 	const [variant, setVariant] = useState<AlertColor | undefined>();
+	const { setIsAuthenticated, setIsLoading } = useAuthenticationContext();
 	const router = useRouter();
 
 	const login = async (
 		username: FormDataEntryValue | null,
 		password: FormDataEntryValue | null
 	) => {
+		setIsLoading(true);
 		try {
 			const response = await axios.post(`/api/auth/login`, {
 				username: username,
 				password: password,
 			});
 			if (response.status === 200) {
+				setIsLoading(false);
 				alert = "success";
 				setOpen(true);
 				setMessage("Logged in, redirecting...");
 				setVariant(alert);
 				setTimeout(() => {
-					window.location.href = "/";
+					router.push("/");
+					setIsAuthenticated(true);
 				}, 3000);
 			}
 		} catch (error: any) {
+			setIsLoading(false);
 			alert = "error";
 			if (error instanceof AxiosError || axios.isAxiosError(error)) {
 				setOpen(true);

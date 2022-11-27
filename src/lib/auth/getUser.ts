@@ -1,14 +1,14 @@
 import axios from "axios";
 
-const isAuthenticated = async () => {
+const getUser = async () => {
 	try {
 		const res = await axios.get("/api/auth/getUser");
 		if (res.status === 200 && res.data.user.type === "user") {
-			return true;
-		} else return false;
+			return res.data;
+		} else return undefined;
 	} catch (err) {
-		return false;
+		return undefined;
 	}
 };
 
-export default isAuthenticated;
+export default getUser;

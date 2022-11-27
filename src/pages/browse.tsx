@@ -19,6 +19,7 @@ import handleCredits from "../lib/clientHelpers/handleCredits";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { Grid } from "@mui/material";
+import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 
 const Browse = (props: any) => {
 	const [query, setQuery] = useState("");
@@ -33,6 +34,8 @@ const Browse = (props: any) => {
 		var searchQuery = query.split(" ").join("+");
 		return searchQuery;
 	};
+
+	const { isAuthenticated, setIsAuthenticated } = useAuthenticationContext();
 
 	const refreshData = () => {
 		router.replace(router.asPath);
@@ -63,6 +66,10 @@ const Browse = (props: any) => {
 		handlePageRedirect(page);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [page]);
+
+	useEffect(() => {
+		setIsAuthenticated(props.isAuthenticated);
+	}, []);
 
 	return (
 		<main>
@@ -116,17 +123,22 @@ const Browse = (props: any) => {
 export default Browse;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+	const { token } = context.req.cookies;
 	var { page, searchQuery, id } = context.query;
+	var loggedIn = token ? true : false;
 	var data: any;
 	if (searchQuery) {
 		data = await searchMovies(searchQuery, page);
 	} else {
 		data = await trendingMovies(page || 1, "week");
 	}
+	if (token) {
+	}
 	return {
 		props: {
 			data: data,
 			page: page,
+			isAuthenticated: loggedIn,
 		},
 	};
 };

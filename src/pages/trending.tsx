@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 import trendingMovies from "../lib/clientHelpers/getTrending";
 import handleImage from "../lib/clientHelpers/handleImage";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 const ResponsiveDialog = dynamic(
@@ -14,11 +14,16 @@ const ResponsiveDialog = dynamic(
 	}
 );
 import Loader from "../components/Loader";
+import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 
 const Trending = (props: any) => {
 	const [modalData, setModalData] = React.useState({});
 	const [modalOpen, setModalOpen] = React.useState(false);
+	const { setIsAuthenticated } = useAuthenticationContext();
 	const router = useRouter();
+	useEffect(() => {
+		setIsAuthenticated(props.isAuthenticated);
+	});
 	return (
 		<main>
 			<Grid
@@ -61,8 +66,10 @@ export default Trending;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { id } = context.query;
+	const { token } = context.req.cookies;
+	var loggedIn = token ? true : false;
 	var data: any = await trendingMovies(1, "day");
 	return {
-		props: { data: data },
+		props: { data: data, isAuthenticated: loggedIn },
 	};
 };

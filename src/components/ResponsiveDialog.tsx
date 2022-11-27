@@ -23,12 +23,13 @@ import handleImage from "../lib/clientHelpers/handleImage";
 import { useRouter } from "next/router";
 import BasicPopover from "./BasicPopover";
 import Carousel from "./Carousel";
-import isAuthenticated from "../lib/auth/isAuthenticated";
+import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 
 const ResponsiveDialog = (props: any) => {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	const { isAuthenticated } = useAuthenticationContext();
 	const [torrentData, setTorrentData] = React.useState<any>({
 		imdb_rating: "",
 		torrents: [],
@@ -36,7 +37,6 @@ const ResponsiveDialog = (props: any) => {
 	});
 	const [findTorrent, setFindTorrent] = React.useState(false);
 	const [found, setFound] = React.useState(false);
-	const [authenticated, setAuthenticated] = React.useState<Promise<boolean>>();
 	const { query } = useRouter();
 
 	const handleClose = () => {
@@ -69,10 +69,6 @@ const ResponsiveDialog = (props: any) => {
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.open]);
-
-	React.useEffect(() => {
-		setAuthenticated(isAuthenticated());
-	}, []);
 
 	const handleClick = (event: any) => {
 		setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -152,7 +148,7 @@ const ResponsiveDialog = (props: any) => {
 				<Carousel id={String(query.id)} />
 			</DialogContent>
 			<DialogActions>
-				{authenticated ? (
+				{isAuthenticated ? (
 					<Tooltip title="Add to Watchlist" color="inherit">
 						<IconButton color="inherit">
 							<FavoriteBorderRoundedIcon style={{ color: "red" }} />

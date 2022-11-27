@@ -4,14 +4,18 @@ import Head from "next/head";
 import { useState, useEffect, useMemo } from "react";
 import BasicDrawer from "../components/BasicDrawer";
 import Navbar from "../components/Navbar";
-import isAuthenticated from "../lib/auth/isAuthenticated";
 import { darkTheme, lightTheme } from "../lib/theme/theme";
 import Loader from "../components/Loader";
+import { GetServerSideProps } from "next";
+import { decodeToken } from "../lib/auth/jwt";
+import {
+	useAuthenticationContext,
+	AuthenticationProvider,
+} from "../lib/context/authenticatedContext";
 
 export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [theme, setTheme] = useState(darkTheme);
 	const [drawerOpen, setDrawerOpen] = useState(false);
-	const [authenticated, setAuthenticated] = useState(false);
 
 	useEffect(() => {
 		var localTheme = localStorage.getItem("theme");
@@ -25,10 +29,6 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 			localStorage.setItem("theme", "dark");
 			setTheme(darkTheme);
 		}
-	}, []);
-
-	useMemo(async () => {
-		setAuthenticated(await isAuthenticated());
 	}, []);
 
 	return (
@@ -46,20 +46,17 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 				<link rel="apple-touch-icon" href="/logo512.png" />
 				<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 			</Head>
-			<Navbar
-				theme={theme}
-				setTheme={setTheme}
-				drawerOpen={drawerOpen}
-				setDrawerOpen={setDrawerOpen}
-				isAuthenticated={authenticated}
-			/>
-			<BasicDrawer
-				drawerOpen={drawerOpen}
-				setDrawerOpen={setDrawerOpen}
-				isAuthenticated={authenticated}
-			/>
-			<Loader />
-			<Component {...pageProps} />
+			<AuthenticationProvider>
+				<Navbar
+					theme={theme}
+					setTheme={setTheme}
+					drawerOpen={drawerOpen}
+					setDrawerOpen={setDrawerOpen}
+				/>
+				<BasicDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+				<Loader />
+				<Component {...pageProps} />
+			</AuthenticationProvider>
 		</ThemeProvider>
 	);
 }
