@@ -1,8 +1,4 @@
 interface IWatchlist {
-	watchlist: Array<Result>;
-}
-
-interface Result {
 	adult: boolean;
 	backdrop_path: string;
 	genre_ids: number[];

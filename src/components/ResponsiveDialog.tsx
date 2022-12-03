@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -15,6 +15,7 @@ import {
 	Box,
 	Divider,
 	Tooltip,
+	AlertColor,
 } from "@mui/material";
 import Image from "next/image";
 import getIMDB from "../lib/clientHelpers/getIMDB";
@@ -22,21 +23,32 @@ import getYTS from "../lib/clientHelpers/getYTS";
 import handleImage from "../lib/clientHelpers/handleImage";
 import { useRouter } from "next/router";
 import BasicPopover from "./BasicPopover";
+import CustomAlert from "./CustomAlert";
 import Carousel from "./Carousel";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
+import IDialog from "../interfaces/IDialog";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import IWatchlist from "../interfaces/IWatchlist";
 
-const ResponsiveDialog = (props: any) => {
+var alert: AlertColor = "error";
+
+const ResponsiveDialog: React.FC<IDialog> = (props) => {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-	const [anchorEl, setAnchorEl] = React.useState(null);
-	const { isAuthenticated } = useAuthenticationContext();
-	const [torrentData, setTorrentData] = React.useState<any>({
+	const [anchorEl, setAnchorEl] = useState(null);
+	const { isAuthenticated, isLoading, setIsLoading } =
+		useAuthenticationContext();
+	const [watchlist, setWatchlist] = useState<Array<IWatchlist>>([]);
+	const [open, setOpen] = useState(false);
+	const [message, setMessage] = useState("");
+	const [variant, setVariant] = useState<AlertColor | undefined>();
+	const [torrentData, setTorrentData] = useState<any>({
 		imdb_rating: "",
 		torrents: [],
 		genres: [],
 	});
-	const [findTorrent, setFindTorrent] = React.useState(false);
-	const [found, setFound] = React.useState(false);
+	const [findTorrent, setFindTorrent] = useState(false);
+	const [found, setFound] = useState(false);
 	const { query } = useRouter();
 
 	const handleClose = () => {
@@ -48,7 +60,6 @@ const ResponsiveDialog = (props: any) => {
 			var imdb = await getIMDB(query.id);
 			if (imdb !== undefined) {
 				var torrent: any = await getYTS(imdb);
-				console.log(torrent);
 				if (torrent !== undefined && torrent.data.movie.title !== null) {
 					setTorrentData({
 						imdb_rating: torrent.data.movie.rating,
@@ -64,10 +75,49 @@ const ResponsiveDialog = (props: any) => {
 		}
 	};
 
-	React.useEffect(() => {
-		fetchData();
+	const handleSetWatchlist = async () => {
+		setIsLoading(true);
+		localStorage.removeItem("watchlist");
+		localStorage.setItem(
+			"watchlist",
+			JSON.stringify([...watchlist, props.data])
+		);
+		try {
+			const response = await axios.post("/api/watchlist/setWatchlist", {
+				list: [...watchlist, props.data],
+			});
+			if (response.status === 200) {
+				alert = "success";
+				setOpen(true);
+				setMessage("Added to watchlist...");
+				setWatchlist(watchlist);
+				setVariant(alert);
+				setIsLoading(false);
+			}
+		} catch (error) {
+			if (error instanceof AxiosError || axios.isAxiosError(error)) {
+				alert = "error";
+				setOpen(true);
+				setMessage(error!.response!.data!.error);
+				setVariant(alert);
+				setIsLoading(false);
+			} else {
+				setOpen(true);
+				setMessage("Something went wrong");
+				setVariant(alert);
+				setIsLoading(false);
+			}
+		}
+	};
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+	useEffect(() => {
+		fetchData();
+		var tempWatchlist = localStorage.getItem("watchlist");
+		if (tempWatchlist) {
+			setWatchlist(JSON.parse(tempWatchlist));
+		} else {
+			setWatchlist([]);
+		}
 	}, [props.open]);
 
 	const handleClick = (event: any) => {
@@ -106,12 +156,7 @@ const ResponsiveDialog = (props: any) => {
 			<DialogContent>
 				<DialogContentText variant="subtitle1">
 					<strong>
-						{(
-							props.data.first_air_date ||
-							props.data.release_date ||
-							"-----"
-						).substring(0, 4)}{" "}
-						[
+						{(props.data.release_date || "-----").substring(0, 4)} [
 						{props.data.original_language &&
 							props.data.original_language.toUpperCase()}
 						]
@@ -150,7 +195,7 @@ const ResponsiveDialog = (props: any) => {
 			<DialogActions>
 				{isAuthenticated ? (
 					<Tooltip title="Add to Watchlist" color="inherit">
-						<IconButton color="inherit">
+						<IconButton color="inherit" onClick={handleSetWatchlist}>
 							<FavoriteBorderRoundedIcon style={{ color: "red" }} />
 						</IconButton>
 					</Tooltip>
@@ -167,6 +212,12 @@ const ResponsiveDialog = (props: any) => {
 					found={found}
 				/>
 			</DialogActions>
+			<CustomAlert
+				open={open}
+				setOpen={setOpen}
+				message={message}
+				variant={variant}
+			/>
 		</Dialog>
 	);
 };

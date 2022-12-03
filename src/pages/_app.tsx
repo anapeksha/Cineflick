@@ -1,24 +1,61 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import BasicDrawer from "../components/BasicDrawer";
 import Navbar from "../components/Navbar";
 import { darkTheme, lightTheme } from "../lib/theme/theme";
 import Loader from "../components/Loader";
-import { GetServerSideProps } from "next";
-import { decodeToken } from "../lib/auth/jwt";
 import {
-	useAuthenticationContext,
 	AuthenticationProvider,
+	useAuthenticationContext,
 } from "../lib/context/authenticatedContext";
+
+import getUser from "../lib/auth/getUser";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [theme, setTheme] = useState(darkTheme);
 	const [drawerOpen, setDrawerOpen] = useState(false);
+	const [user, setUser] = useState({
+		exp: 0,
+		iat: 0,
+		id: "",
+		type: "",
+		username: "",
+	});
+	const { isLoading, setIsLoading } = useAuthenticationContext();
+	const router = useRouter();
+
+	const fetchData = async () => {
+		const response = await getUser();
+		if (response !== undefined) {
+			setUser(response);
+		}
+	};
+
+	const handleGetWatchlist = async () => {
+		setIsLoading(true);
+		try {
+			const response = await axios.get("/api/watchlist/getWatchlist");
+			if (response.status === 200) {
+				localStorage.setItem(
+					"watchlist",
+					JSON.stringify(response.data.watchlist.list)
+				);
+				setIsLoading(false);
+			}
+		} catch (err) {
+			router.push("/login");
+			setIsLoading(false);
+		}
+	};
 
 	useEffect(() => {
 		var localTheme = localStorage.getItem("theme");
+		fetchData();
+		handleGetWatchlist();
 		if (localTheme) {
 			if (localTheme === "dark") {
 				setTheme(darkTheme);
@@ -52,6 +89,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 					setTheme={setTheme}
 					drawerOpen={drawerOpen}
 					setDrawerOpen={setDrawerOpen}
+					user={user}
 				/>
 				<BasicDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
 				<Loader />

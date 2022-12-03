@@ -112,7 +112,11 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 								open={Boolean(anchorEl)}
 								onClose={handleClose}
 							>
-								<MenuItem onClick={() => router.push("/users/123/dashboard")}>
+								<MenuItem
+									onClick={() => {
+										router.push(`/users/${props.user.username}/dashboard`);
+									}}
+								>
 									Profile
 								</MenuItem>
 								<MenuItem

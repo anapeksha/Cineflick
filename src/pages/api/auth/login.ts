@@ -39,7 +39,6 @@ export default async function handler(
 			}
 			return res.status(401).json({ error: "Invalid Password" });
 		} catch (err: any) {
-			//console.log(err);
 			return res.status(408).json({ error: "Timed Out" });
 		}
 	}

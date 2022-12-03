@@ -5,24 +5,34 @@ import getUpcoming from "../lib/clientHelpers/getUpcoming";
 import handleImage from "../lib/clientHelpers/handleImage";
 import HomeCard from "../components/HomeCard";
 import { useRouter } from "next/router";
-import * as React from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-const ResponsiveDialog = dynamic(
-	() => import("../components/ResponsiveDialog"),
-	{
-		suspense: true,
-	}
-);
-import Loader from "../components/Loader";
+import ResponsiveDialog from "../components/ResponsiveDialog";
+import IWatchlist from "../interfaces/IWatchlist";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 
 const Home = (props: any) => {
-	const [modalData, setModalData] = React.useState({});
-	const [modalOpen, setModalOpen] = React.useState(false);
+	const [modalData, setModalData] = useState<IWatchlist>({
+		adult: false,
+		backdrop_path: "",
+		genre_ids: [],
+		id: 0,
+		original_language: "",
+		original_title: "",
+		overview: "",
+		popularity: 0,
+		poster_path: "",
+		release_date: "",
+		title: "",
+		video: false,
+		vote_average: 0,
+		vote_count: 0,
+	});
+	const [modalOpen, setModalOpen] = useState(false);
 	const router = useRouter();
-	const [upcomingData, setUpcomingData]: Array<any> = React.useState([]);
-	const [topRatedData, setTopRatedData]: Array<any> = React.useState([]);
+	const [upcomingData, setUpcomingData]: Array<any> = useState([]);
+	const [topRatedData, setTopRatedData]: Array<any> = useState([]);
 	const { setIsAuthenticated } = useAuthenticationContext();
 
 	const createNewArray = (arr: Array<any>) => {
@@ -124,13 +134,11 @@ const Home = (props: any) => {
 					})}
 				</Grid>
 			</Box>
-			<Suspense fallback={<Loader />}>
-				<ResponsiveDialog
-					data={modalData}
-					open={modalOpen}
-					setOpen={setModalOpen}
-				/>
-			</Suspense>
+			<ResponsiveDialog
+				data={modalData}
+				open={modalOpen}
+				setOpen={setModalOpen}
+			/>
 		</main>
 	);
 };
