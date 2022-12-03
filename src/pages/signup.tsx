@@ -52,6 +52,7 @@ const Signup = () => {
 				password: password,
 			});
 			if (response.status === 200) {
+				console.log(response.data);
 				setIsLoading(false);
 				alert = "success";
 				setOpen(true);

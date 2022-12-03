@@ -3,13 +3,7 @@ import SearchBar from "../components/SearchBar";
 import Paginate from "../components/Paginate";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-const ResponsiveDialog = dynamic(
-	() => import("../components/ResponsiveDialog"),
-	{
-		suspense: true,
-	}
-);
-import Loader from "../components/Loader";
+import ResponsiveDialog from "../components/ResponsiveDialog";
 import { useEffect, useState } from "react";
 import handleImage from "../lib/clientHelpers/handleImage";
 import searchMovies from "../lib/clientHelpers/searchMovies";
@@ -20,13 +14,29 @@ import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { Grid } from "@mui/material";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
+import IWatchlist from "../interfaces/IWatchlist";
 
 const Browse = (props: any) => {
 	const [query, setQuery] = useState("");
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(props.data.total_pages);
 	const [searchResults, setSearchResults] = useState([]);
-	const [modalData, setModalData] = useState({});
+	const [modalData, setModalData] = useState<IWatchlist>({
+		adult: false,
+		backdrop_path: "",
+		genre_ids: [],
+		id: 0,
+		original_language: "",
+		original_title: "",
+		overview: "",
+		popularity: 0,
+		poster_path: "",
+		release_date: "",
+		title: "",
+		video: false,
+		vote_average: 0,
+		vote_count: 0,
+	});
 	const [modalOpen, setModalOpen] = useState(false);
 	const router = useRouter();
 
@@ -104,13 +114,11 @@ const Browse = (props: any) => {
 					);
 				})}
 			</Grid>
-			<Suspense fallback={<Loader />}>
-				<ResponsiveDialog
-					data={modalData}
-					open={modalOpen}
-					setOpen={setModalOpen}
-				/>
-			</Suspense>
+			<ResponsiveDialog
+				data={modalData}
+				open={modalOpen}
+				setOpen={setModalOpen}
+			/>
 			<Paginate
 				page={page.toString()}
 				setPage={setPage}

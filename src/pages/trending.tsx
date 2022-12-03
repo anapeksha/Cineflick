@@ -4,21 +4,31 @@ import { Grid } from "@mui/material";
 import trendingMovies from "../lib/clientHelpers/getTrending";
 import handleImage from "../lib/clientHelpers/handleImage";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-const ResponsiveDialog = dynamic(
-	() => import("../components/ResponsiveDialog"),
-	{
-		suspense: true,
-	}
-);
-import Loader from "../components/Loader";
+import ResponsiveDialog from "../components/ResponsiveDialog";
+import IWatchlist from "../interfaces/IWatchlist";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 
 const Trending = (props: any) => {
-	const [modalData, setModalData] = React.useState({});
-	const [modalOpen, setModalOpen] = React.useState(false);
+	const [modalData, setModalData] = useState<IWatchlist>({
+		adult: false,
+		backdrop_path: "",
+		genre_ids: [],
+		id: 0,
+		original_language: "",
+		original_title: "",
+		overview: "",
+		popularity: 0,
+		poster_path: "",
+		release_date: "",
+		title: "",
+		video: false,
+		vote_average: 0,
+		vote_count: 0,
+	});
+	const [modalOpen, setModalOpen] = useState(false);
 	const { setIsAuthenticated } = useAuthenticationContext();
 	const router = useRouter();
 	useEffect(() => {
@@ -51,13 +61,11 @@ const Trending = (props: any) => {
 					);
 				})}
 			</Grid>
-			<Suspense fallback={<Loader />}>
-				<ResponsiveDialog
-					data={modalData}
-					open={modalOpen}
-					setOpen={setModalOpen}
-				/>
-			</Suspense>
+			<ResponsiveDialog
+				data={modalData}
+				open={modalOpen}
+				setOpen={setModalOpen}
+			/>
 		</main>
 	);
 };

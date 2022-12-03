@@ -16,7 +16,7 @@ import {
 	ListItemText,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 import IDrawerProps from "../interfaces/IDrawerProps";
 import logout from "../lib/auth/logout";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
@@ -24,10 +24,6 @@ import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 const BasicDrawer: React.FC<IDrawerProps> = (props) => {
 	const router = useRouter();
 	const { isAuthenticated } = useAuthenticationContext();
-
-	useEffect(() => {
-		console.log(isAuthenticated);
-	}, []);
 
 	const listItems = [
 		{ title: "Home", icon: <HomeIcon />, url: "/", visible: true },

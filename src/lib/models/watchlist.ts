@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 import { Schema, SchemaDefinition } from "mongoose";
-import IWatchlist from "../../interfaces/IWatchlist";
+import IWatchlistSchema from "../../interfaces/IWatchlistSchema";
 
-const watchlistDefinition: SchemaDefinition<IWatchlist> = {
-	watchlist: [
+const watchlistDefinition: SchemaDefinition<IWatchlistSchema> = {
+	list: [
 		{
 			adult: Schema.Types.Boolean,
 			backdrop_path: String,
-			genre_ids: [Number],
+			genre_ids: [],
 			id: Number,
 			original_language: String,
 			original_title: String,
@@ -21,6 +21,10 @@ const watchlistDefinition: SchemaDefinition<IWatchlist> = {
 			vote_count: Number,
 		},
 	],
+	_id: {
+		type: Schema.Types.ObjectId,
+		ref: "User",
+	},
 };
 
 const watchlistSchema = new Schema(watchlistDefinition);
