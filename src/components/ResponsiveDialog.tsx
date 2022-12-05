@@ -57,6 +57,17 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 		props.setOpen(false);
 	};
 
+	const findInWatchlist = () => {
+		let flag = false;
+		for (let i = 0; i < watchlist.length; ++i) {
+			if (watchlist[i].id === props.data.id) {
+				flag = true;
+				break;
+			}
+		}
+		return flag;
+	};
+
 	const fetchData = async () => {
 		if (query.id !== undefined) {
 			var imdb = await getIMDB(query.id);
@@ -112,20 +123,63 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 		}
 	};
 
-	const handleWatchlistIcon = () => {
-		let flag = false;
-
-		for (let i = 0; i < watchlist.length; ++i) {
-			if (watchlist[i].id === props.data.id) {
-				flag = true;
+	const handleRemoveWatchlist = async () => {
+		setIsLoading(true);
+		localStorage.removeItem("watchlist");
+		var tempWatchlist = watchlist;
+		for (let i = 0; i < tempWatchlist.length; ++i) {
+			if (tempWatchlist[i].id === props.data.id) {
+				tempWatchlist.splice(i, 1);
 				break;
 			}
 		}
+		localStorage.setItem("watchlist", JSON.stringify(tempWatchlist));
+		try {
+			const response = await axios.post("/api/watchlist/setWatchlist", {
+				list: tempWatchlist,
+			});
+			if (response.status === 200) {
+				alert = "success";
+				setOpen(true);
+				setMessage("Removed from watchlist...");
+				setWatchlist(tempWatchlist);
+				setVariant(alert);
+				setIsLoading(false);
+			}
+		} catch (error) {
+			if (error instanceof AxiosError || axios.isAxiosError(error)) {
+				alert = "error";
+				setOpen(true);
+				setMessage(error!.response!.data!.error);
+				setVariant(alert);
+				setIsLoading(false);
+			} else {
+				setOpen(true);
+				setMessage("Something went wrong");
+				setVariant(alert);
+				setIsLoading(false);
+			}
+		}
+	};
+
+	const handleWatchlistIcon = () => {
+		let flag = findInWatchlist();
 		if (flag) {
-			console.log(true);
-			return <FavoriteIcon style={{ color: "red" }} />;
+			return (
+				<Tooltip title="Remove from Watchlist" color="inherit">
+					<IconButton color="inherit" onClick={handleRemoveWatchlist}>
+						<FavoriteIcon style={{ color: "red" }} />
+					</IconButton>
+				</Tooltip>
+			);
 		} else {
-			return <FavoriteBorderRoundedIcon />;
+			return (
+				<Tooltip title="Add to Watchlist" color="inherit">
+					<IconButton color="inherit" onClick={handleSetWatchlist}>
+						<FavoriteBorderRoundedIcon />
+					</IconButton>
+				</Tooltip>
+			);
 		}
 	};
 
@@ -212,13 +266,7 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 				<Carousel id={String(query.id)} />
 			</DialogContent>
 			<DialogActions>
-				{isAuthenticated ? (
-					<Tooltip title="Add to Watchlist" color="inherit">
-						<IconButton color="inherit" onClick={handleSetWatchlist}>
-							{handleWatchlistIcon()}
-						</IconButton>
-					</Tooltip>
-				) : null}
+				{isAuthenticated ? handleWatchlistIcon() : null}
 				<Tooltip title="Download">
 					<IconButton onClick={handleClick} color="inherit">
 						<DownloadRoundedIcon />
