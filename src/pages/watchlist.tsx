@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Grid } from "@mui/material";
 import HomeCard from "../components/HomeCard";
 import { GetServerSideProps } from "next";
@@ -60,18 +60,18 @@ const Watchlist = (props: any) => {
 		}
 	};
 
-	useMemo(() => {
+	useEffect(() => {
 		fetchWatchlist();
 		setIsAuthenticated(props.isAuthenticated);
 	}, []);
 
 	return (
 		<main>
-			<Box>
+			<Box padding="3%">
 				<Grid
 					sx={{ flexGrow: 1, padding: "20px", mb: 5 }}
 					container
-					spacing={3}
+					spacing={2}
 					columns={6}
 				>
 					{watchlist &&
