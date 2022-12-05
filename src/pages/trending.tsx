@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import BasicCard from "../components/BasicCard";
 import { Grid } from "@mui/material";
-import trendingMovies from "../lib/clientHelpers/getTrending";
+import getTrending from "../lib/clientHelpers/getTrending";
 import handleImage from "../lib/clientHelpers/handleImage";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
@@ -76,7 +76,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { id } = context.query;
 	const { token } = context.req.cookies;
 	var loggedIn = token ? true : false;
-	var data: any = await trendingMovies(1, "day");
+	var data: any = await getTrending(1, "day");
+	console.log("data", data);
 	return {
 		props: { data: data, isAuthenticated: loggedIn },
 	};

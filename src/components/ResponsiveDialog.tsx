@@ -4,6 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
 	Button,
 	Dialog,
@@ -29,6 +30,7 @@ import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 import IDialog from "../interfaces/IDialog";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import IWatchlist from "../interfaces/IWatchlist";
+import { useLoadingContext } from "../lib/context/loadedContext";
 
 var alert: AlertColor = "error";
 
@@ -36,8 +38,8 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 	const [anchorEl, setAnchorEl] = useState(null);
-	const { isAuthenticated, isLoading, setIsLoading } =
-		useAuthenticationContext();
+	const { isAuthenticated } = useAuthenticationContext();
+	const { isLoading, setIsLoading } = useLoadingContext();
 	const [watchlist, setWatchlist] = useState<Array<IWatchlist>>([]);
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState("");
@@ -90,7 +92,7 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 				alert = "success";
 				setOpen(true);
 				setMessage("Added to watchlist...");
-				setWatchlist(watchlist);
+				setWatchlist([...watchlist, props.data]);
 				setVariant(alert);
 				setIsLoading(false);
 			}
@@ -107,6 +109,23 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 				setVariant(alert);
 				setIsLoading(false);
 			}
+		}
+	};
+
+	const handleWatchlistIcon = () => {
+		let flag = false;
+
+		for (let i = 0; i < watchlist.length; ++i) {
+			if (watchlist[i].id === props.data.id) {
+				flag = true;
+				break;
+			}
+		}
+		if (flag) {
+			console.log(true);
+			return <FavoriteIcon style={{ color: "red" }} />;
+		} else {
+			return <FavoriteBorderRoundedIcon />;
 		}
 	};
 
@@ -196,7 +215,7 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 				{isAuthenticated ? (
 					<Tooltip title="Add to Watchlist" color="inherit">
 						<IconButton color="inherit" onClick={handleSetWatchlist}>
-							<FavoriteBorderRoundedIcon style={{ color: "red" }} />
+							{handleWatchlistIcon()}
 						</IconButton>
 					</Tooltip>
 				) : null}

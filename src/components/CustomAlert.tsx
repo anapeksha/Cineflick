@@ -7,10 +7,9 @@ const CustomAlert: React.FC<IAlertProps> = (props) => {
 		<Box>
 			<Snackbar
 				open={props.open}
-				autoHideDuration={3000}
+				autoHideDuration={1500}
 				onClose={() => props.setOpen(false)}
 				anchorOrigin={{ horizontal: "right", vertical: "top" }}
-
 			>
 				<Alert severity={props.variant}>{props.message}</Alert>
 			</Snackbar>
