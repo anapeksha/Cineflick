@@ -5,6 +5,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import CustomAlert from "../components/CustomAlert";
 import { useRouter } from "next/router";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
+import { useLoadingContext } from "../lib/context/loadedContext";
 
 const fields = [
 	{
@@ -29,8 +30,23 @@ const Login = () => {
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState("");
 	const [variant, setVariant] = useState<AlertColor | undefined>();
-	const { setIsAuthenticated, setIsLoading } = useAuthenticationContext();
+	const { setIsAuthenticated } = useAuthenticationContext();
+	const { setIsLoading } = useLoadingContext();
 	const router = useRouter();
+
+	const handleGetWatchlist = async () => {
+		try {
+			const response = await axios.get("/api/watchlist/getWatchlist");
+			if (response.status === 200) {
+				localStorage.setItem(
+					"watchlist",
+					JSON.stringify(response.data.watchlist.list)
+				);
+			}
+		} catch (err) {
+			router.push("/login");
+		}
+	};
 
 	const login = async (
 		username: FormDataEntryValue | null,
@@ -43,6 +59,7 @@ const Login = () => {
 				password: password,
 			});
 			if (response.status === 200) {
+				handleGetWatchlist();
 				setIsLoading(false);
 				alert = "success";
 				setOpen(true);
@@ -51,7 +68,7 @@ const Login = () => {
 				setTimeout(() => {
 					router.push("/");
 					setIsAuthenticated(true);
-				}, 3000);
+				}, 2000);
 			}
 		} catch (error: any) {
 			setIsLoading(false);

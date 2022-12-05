@@ -3,7 +3,7 @@ import { AlertColor, Box } from "@mui/material";
 import Form from "../components/Form";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import CustomAlert from "../components/CustomAlert";
-import { useAuthenticationContext } from "../lib/context/authenticatedContext";
+import { useLoadingContext } from "../lib/context/loadedContext";
 import { useRouter } from "next/router";
 
 const fields = [
@@ -36,7 +36,7 @@ const Signup = () => {
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState("");
 	const [variant, setVariant] = useState<AlertColor | undefined>(alert);
-	const { setIsLoading } = useAuthenticationContext();
+	const { setIsLoading } = useLoadingContext();
 	const router = useRouter();
 
 	const signup = async (
