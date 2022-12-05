@@ -6,11 +6,11 @@ import BasicDrawer from "../components/BasicDrawer";
 import Navbar from "../components/Navbar";
 import { darkTheme, lightTheme } from "../lib/theme/theme";
 import Loader from "../components/Loader";
+import { AuthenticationProvider } from "../lib/context/authenticatedContext";
 import {
-	AuthenticationProvider,
-	useAuthenticationContext,
-} from "../lib/context/authenticatedContext";
-
+	LoadingProvider,
+	useLoadingContext,
+} from "../lib/context/loadedContext";
 import getUser from "../lib/auth/getUser";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -25,7 +25,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		type: "",
 		username: "",
 	});
-	const { isLoading, setIsLoading } = useAuthenticationContext();
+	const { isLoading, setIsLoading } = useLoadingContext();
 	const router = useRouter();
 
 	const fetchData = async () => {
@@ -84,16 +84,18 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 				<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 			</Head>
 			<AuthenticationProvider>
-				<Navbar
-					theme={theme}
-					setTheme={setTheme}
-					drawerOpen={drawerOpen}
-					setDrawerOpen={setDrawerOpen}
-					user={user}
-				/>
-				<BasicDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
-				<Loader />
-				<Component {...pageProps} />
+				<LoadingProvider>
+					<Navbar
+						theme={theme}
+						setTheme={setTheme}
+						drawerOpen={drawerOpen}
+						setDrawerOpen={setDrawerOpen}
+						user={user}
+					/>
+					<BasicDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+					<Loader />
+					<Component {...pageProps} />
+				</LoadingProvider>
 			</AuthenticationProvider>
 		</ThemeProvider>
 	);
