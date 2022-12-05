@@ -107,8 +107,7 @@ export default Watchlist;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { token } = context.req.cookies;
-	var isAuthenticated;
-	if (token !== undefined) {
+	if (token) {
 		return {
 			props: {
 				isAuthenticated: true,
