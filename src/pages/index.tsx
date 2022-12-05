@@ -5,7 +5,7 @@ import getUpcoming from "../lib/clientHelpers/getUpcoming";
 import handleImage from "../lib/clientHelpers/handleImage";
 import HomeCard from "../components/HomeCard";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import ResponsiveDialog from "../components/ResponsiveDialog";
@@ -51,7 +51,7 @@ const Home = (props: any) => {
 		return results;
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setIsAuthenticated(props.isAuthenticated);
 		var data: any = sessionStorage.getItem("data");
 		if (data) {
