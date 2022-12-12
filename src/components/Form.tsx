@@ -2,15 +2,40 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import React from "react";
 import IFormProps from "../interfaces/IFormProps";
 import Link from "next/link";
+import { PhotoCamera } from "@mui/icons-material";
 
 const Form: React.FC<IFormProps> = (props) => {
 	return (
 		<Box
-			sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				alignItems: "center",
+				padding: "4%",
+			}}
 			maxWidth="xs"
 		>
 			<Typography variant="h5">{props.headerText}</Typography>
 			<Box component="form" onSubmit={props.handleSubmit} noValidate>
+				{props.headerText === "Update Profile" ? (
+					<Box display="flex" justifyContent="center">
+						<Button
+							variant="contained"
+							component="label"
+							startIcon={<PhotoCamera />}
+							sx={{ mt: 3, mb: 3 }}
+						>
+							Photo
+							<input
+								hidden
+								accept="image/*"
+								type="file"
+								label="profile-image"
+								name="profile-image"
+							/>
+						</Button>
+					</Box>
+				) : null}
 				{props.formFields.map((field: any, i: number) => {
 					return field.autofocus ? (
 						<TextField
@@ -51,7 +76,7 @@ const Form: React.FC<IFormProps> = (props) => {
 					>
 						New here? Register
 					</Link>
-				) : (
+				) : props.headerText === "Sign Up" ? (
 					<Link
 						href="login"
 						style={{
@@ -63,7 +88,7 @@ const Form: React.FC<IFormProps> = (props) => {
 					>
 						Already registered? Login
 					</Link>
-				)}
+				) : null}
 			</Box>
 		</Box>
 	);
