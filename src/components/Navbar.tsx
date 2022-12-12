@@ -2,7 +2,9 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
 	AppBar,
+	Avatar,
 	Box,
+	Divider,
 	IconButton,
 	Menu,
 	MenuItem,
@@ -10,19 +12,22 @@ import {
 	Typography,
 	Tooltip,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import INavbarProps from "../interfaces/INavbarProps";
 import ThemeSwitch from "../lib/styles/ThemeSwitch.style";
 import { darkTheme, lightTheme } from "../lib/theme/theme";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import logout from "../lib/auth/logout";
 import { useRouter } from "next/router";
+import getPhoto from "../lib/clientHelpers/getPhoto";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 
 const Navbar: React.FC<INavbarProps> = (props) => {
 	const router = useRouter();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-	const { isAuthenticated, setIsAuthenticated } = useAuthenticationContext();
+	const [photo, setPhoto] = useState<string>("");
+	const { isAuthenticated, setIsAuthenticated, user } =
+		useAuthenticationContext();
 
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -31,6 +36,17 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+
+	const fetchData = async () => {
+		const response = await getPhoto();
+		if (response !== undefined) {
+			setPhoto(response.photo);
+		}
+	};
+
+	useEffect(() => {
+		fetchData();
+	}, []);
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
@@ -98,7 +114,11 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 									aria-haspopup="true"
 									onClick={handleMenu}
 								>
-									<AccountCircle />
+									{photo !== null || photo !== "" ? (
+										<Avatar sx={{ width: 30, height: 30 }} src={photo} />
+									) : (
+										<Avatar sx={{ width: 30, height: 30 }} />
+									)}
 								</IconButton>
 							</Tooltip>
 							<Menu
@@ -114,14 +134,14 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 							>
 								<MenuItem
 									onClick={() => {
-										router.push(`/users/${props.user.username}/dashboard`);
+										console.log(user);
 									}}
 								>
-									Profile
+									Account
 								</MenuItem>
 								<MenuItem
-									onClick={async () => {
-										if (await logout()) {
+									onClick={() => {
+										if (logout()) {
 											setIsAuthenticated(false);
 										}
 									}}

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { AlertColor, Box } from "@mui/material";
-import Form from "../components/Form";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import CustomAlert from "../components/CustomAlert";
-import { useLoadingContext } from "../lib/context/loadedContext";
+import Image from "next/image";
+import Form from "../../../components/Form";
 import { useRouter } from "next/router";
+import { useLoadingContext } from "../../../lib/context/loadedContext";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 const fields = [
 	{
@@ -32,33 +32,36 @@ const fields = [
 
 var alert: AlertColor = "error";
 
-const Signup = () => {
+const Profile = () => {
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState("");
 	const [variant, setVariant] = useState<AlertColor | undefined>(alert);
+	const [photoView, setPhotoView] = useState("");
 	const { setIsLoading } = useLoadingContext();
 	const router = useRouter();
 
-	const signup = async (
+	const updateProfile = async (
+		image: FormDataEntryValue | null,
 		username: FormDataEntryValue | null,
 		email: FormDataEntryValue | null,
 		password: FormDataEntryValue | null
 	) => {
 		setIsLoading(true);
 		try {
-			const response = await axios.post(`/api/auth/signup`, {
-				username: username,
+			const response = await axios.post("/api/profile/updateProfile", {
+				photo: image,
 				email: email,
+				username: username,
 				password: password,
 			});
 			if (response.status === 200) {
 				setIsLoading(false);
 				alert = "success";
 				setOpen(true);
-				setMessage("Account created, please login...");
+				setMessage("Account details updated...");
 				setVariant(alert);
 				setTimeout(() => {
-					router.push("login");
+					router.push("/");
 				}, 2000);
 			}
 		} catch (error: any) {
@@ -76,29 +79,22 @@ const Signup = () => {
 		}
 	};
 
-	useEffect(() => {
-		if (isAuthenticated) {
-			router.replace("/");
-		}
-	}, []);
-
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
 		const username = data.get("username");
 		const email = data.get("email");
 		const password = data.get("password");
-		signup(username, email, password);
+		const photoFile = data.get("profile-image");
+		const reader = new FileReader();
+		reader.readAsDataURL(photoFile);
+		reader.onloadend = () => {
+			updateProfile(reader.result, email, username, password)
+		};
 	};
 
 	return (
 		<main>
-			<CustomAlert
-				open={open}
-				setOpen={setOpen}
-				message={message}
-				variant={variant}
-			/>
 			<Box
 				display="flex"
 				justifyContent="center"
@@ -107,8 +103,8 @@ const Signup = () => {
 			>
 				<Form
 					formFields={fields}
-					headerText="Sign Up"
-					buttonText="Signup"
+					headerText="Update Profile"
+					buttonText="Update"
 					handleSubmit={handleSubmit}
 				/>
 			</Box>
@@ -116,4 +112,4 @@ const Signup = () => {
 	);
 };
 
-export default Signup;
+export default Profile;

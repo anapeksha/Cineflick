@@ -15,6 +15,7 @@ import { GetServerSideProps } from "next";
 import { Grid } from "@mui/material";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 import IWatchlist from "../interfaces/IWatchlist";
+import { decodeToken } from "../lib/auth/jwt";
 
 const Browse = (props: any) => {
 	const [query, setQuery] = useState("");
@@ -45,7 +46,8 @@ const Browse = (props: any) => {
 		return searchQuery;
 	};
 
-	const { isAuthenticated, setIsAuthenticated } = useAuthenticationContext();
+	const { isAuthenticated, setIsAuthenticated, setUser } =
+		useAuthenticationContext();
 
 	const refreshData = () => {
 		router.replace(router.asPath);
@@ -79,6 +81,9 @@ const Browse = (props: any) => {
 
 	useEffect(() => {
 		setIsAuthenticated(props.isAuthenticated);
+		if (props.user) {
+			setUser(props.user);
+		}
 	}, []);
 
 	return (
@@ -132,6 +137,7 @@ export default Browse;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { token } = context.req.cookies;
+	const userData = await decodeToken(token);
 	var { page, searchQuery, id } = context.query;
 	var loggedIn = token ? true : false;
 	var data: any;
@@ -140,13 +146,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	} else {
 		data = await trendingMovies(page || 1, "week");
 	}
-	if (token) {
+	if (loggedIn) {
+		return {
+			props: { data: data, isAuthenticated: loggedIn, user: userData },
+		};
+	} else {
+		return {
+			props: { data: data, isAuthenticated: loggedIn, user: null },
+		};
 	}
-	return {
-		props: {
-			data: data,
-			page: page,
-			isAuthenticated: loggedIn,
-		},
-	};
 };

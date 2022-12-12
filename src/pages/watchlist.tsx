@@ -9,6 +9,7 @@ import Loader from "../components/Loader";
 import { useRouter } from "next/router";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 import axios from "axios";
+import { decodeToken } from "../lib/auth/jwt";
 
 const Watchlist = (props: any) => {
 	const [watchlist, setWatchlist] = useState<Array<IWatchlist>>([
@@ -46,7 +47,8 @@ const Watchlist = (props: any) => {
 		vote_count: 0,
 	});
 	const [modalOpen, setModalOpen] = useState(false);
-	const { isAuthenticated, setIsAuthenticated } = useAuthenticationContext();
+	const { isAuthenticated, setIsAuthenticated, setUser } =
+		useAuthenticationContext();
 	const router = useRouter();
 
 	const fetchWatchlist = async () => {
@@ -63,6 +65,15 @@ const Watchlist = (props: any) => {
 	useEffect(() => {
 		fetchWatchlist();
 		setIsAuthenticated(props.isAuthenticated);
+		if (props.user) {
+			setUser(props.user);
+		}
+	}, []);
+
+	useEffect(() => {
+		if (!isAuthenticated) {
+			router.replace("/");
+		}
 	}, []);
 
 	return (
@@ -107,18 +118,19 @@ export default Watchlist;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { token } = context.req.cookies;
+	const userData = await decodeToken(token);
 	if (token) {
 		return {
 			props: {
 				isAuthenticated: true,
-				token: token,
+				user: userData,
 			},
 		};
 	} else {
 		return {
 			props: {
 				isAuthenticated: false,
-				token: null,
+				user: null,
 			},
 		};
 	}

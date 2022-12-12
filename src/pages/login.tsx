@@ -3,6 +3,7 @@ import { AlertColor, Box } from "@mui/material";
 import Form from "../components/Form";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import CustomAlert from "../components/CustomAlert";
+import getUser from "../lib/auth/getUser";
 import { useRouter } from "next/router";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 import { useLoadingContext } from "../lib/context/loadedContext";
@@ -26,11 +27,12 @@ const fields = [
 
 var alert: AlertColor = "error";
 
-const Login = () => {
+const Login = (props: any) => {
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState("");
 	const [variant, setVariant] = useState<AlertColor | undefined>();
-	const { setIsAuthenticated } = useAuthenticationContext();
+	const { isAuthenticated, setIsAuthenticated, setUser } =
+		useAuthenticationContext();
 	const { setIsLoading } = useLoadingContext();
 	const router = useRouter();
 
@@ -47,6 +49,17 @@ const Login = () => {
 			router.push("/login");
 		}
 	};
+
+	const fetchUser = async () => {
+		const response = await getUser();
+		if (response !== undefined) {
+			setUser(response);
+		}
+	};
+
+	useEffect(() => {
+		fetchUser();
+	}, [isAuthenticated]);
 
 	const login = async (
 		username: FormDataEntryValue | null,
@@ -94,7 +107,7 @@ const Login = () => {
 	};
 
 	return (
-		<Box>
+		<main>
 			<CustomAlert
 				open={open}
 				setOpen={setOpen}
@@ -114,7 +127,7 @@ const Login = () => {
 					handleSubmit={handleSubmit}
 				/>
 			</Box>
-		</Box>
+		</main>
 	);
 };
 

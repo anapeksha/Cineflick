@@ -12,7 +12,7 @@ export default async function handler(
 		const { token } = req.cookies;
 		const watchlist = req.body.list;
 		if (!token) {
-			return res.status(401).json({ message: "Unauthorised" });
+			return res.status(401).json({ error: "Unauthorised" });
 		}
 		const decodedToken: any = await decodeToken(token);
 		if (decodedToken) {

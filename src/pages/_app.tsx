@@ -6,7 +6,10 @@ import BasicDrawer from "../components/BasicDrawer";
 import Navbar from "../components/Navbar";
 import { darkTheme, lightTheme } from "../lib/theme/theme";
 import Loader from "../components/Loader";
-import { AuthenticationProvider } from "../lib/context/authenticatedContext";
+import {
+	AuthenticationProvider,
+	useAuthenticationContext,
+} from "../lib/context/authenticatedContext";
 import {
 	LoadingProvider,
 	useLoadingContext,
@@ -18,14 +21,8 @@ import { useRouter } from "next/router";
 export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [theme, setTheme] = useState(darkTheme);
 	const [drawerOpen, setDrawerOpen] = useState(false);
-	const [user, setUser] = useState({
-		exp: 0,
-		iat: 0,
-		id: "",
-		type: "",
-		username: "",
-	});
 	const { isLoading, setIsLoading } = useLoadingContext();
+	const { user, setUser, isAuthenticated } = useAuthenticationContext();
 	const router = useRouter();
 
 	const fetchData = async () => {
@@ -68,6 +65,10 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 		}
 	}, []);
 
+	useEffect(() => {
+		fetchData();
+	}, [isAuthenticated]);
+
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
@@ -90,7 +91,6 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 						setTheme={setTheme}
 						drawerOpen={drawerOpen}
 						setDrawerOpen={setDrawerOpen}
-						user={user}
 					/>
 					<BasicDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
 					<Loader />
