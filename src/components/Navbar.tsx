@@ -134,7 +134,7 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 							>
 								<MenuItem
 									onClick={() => {
-										console.log(user);
+										router.push(`/users/${user.username}/profile`);
 									}}
 								>
 									Account
