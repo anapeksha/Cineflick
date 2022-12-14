@@ -41,7 +41,7 @@ const Profile = () => {
 	const router = useRouter();
 
 	const updateProfile = async (
-		image: FormDataEntryValue | null,
+		image: string | ArrayBuffer | null,
 		username: FormDataEntryValue | null,
 		email: FormDataEntryValue | null,
 		password: FormDataEntryValue | null
@@ -87,9 +87,9 @@ const Profile = () => {
 		const password = data.get("password");
 		const photoFile = data.get("profile-image");
 		const reader = new FileReader();
-		reader.readAsDataURL(photoFile);
+		reader.readAsDataURL(photoFile as Blob);
 		reader.onloadend = () => {
-			updateProfile(reader.result, email, username, password)
+			updateProfile(reader.result, email, username, password);
 		};
 	};
 

@@ -30,7 +30,6 @@ const Form: React.FC<IFormProps> = (props) => {
 								hidden
 								accept="image/*"
 								type="file"
-								label="profile-image"
 								name="profile-image"
 							/>
 						</Button>

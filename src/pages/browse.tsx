@@ -137,7 +137,7 @@ export default Browse;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { token } = context.req.cookies;
-	const userData = await decodeToken(token);
+	const userData = await decodeToken(token as string);
 	var { page, searchQuery, id } = context.query;
 	var loggedIn = token ? true : false;
 	var data: any;

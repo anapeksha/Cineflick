@@ -81,7 +81,7 @@ export default Trending;
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { id } = context.query;
 	const { token } = context.req.cookies;
-	const userData = await decodeToken(token);
+	const userData = await decodeToken(token as string);
 	var loggedIn = token ? true : false;
 	var data: any = await getTrending(1, "day");
 	if (loggedIn) {

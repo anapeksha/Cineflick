@@ -4,6 +4,7 @@ import Form from "../components/Form";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import CustomAlert from "../components/CustomAlert";
 import { useLoadingContext } from "../lib/context/loadedContext";
+import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 import { useRouter } from "next/router";
 
 const fields = [
@@ -37,6 +38,8 @@ const Signup = () => {
 	const [message, setMessage] = useState("");
 	const [variant, setVariant] = useState<AlertColor | undefined>(alert);
 	const { setIsLoading } = useLoadingContext();
+	const { isAuthenticated } = useAuthenticationContext();
+
 	const router = useRouter();
 
 	const signup = async (

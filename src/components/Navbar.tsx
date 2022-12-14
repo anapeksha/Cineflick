@@ -141,9 +141,11 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 								</MenuItem>
 								<MenuItem
 									onClick={() => {
-										if (logout()) {
-											setIsAuthenticated(false);
-										}
+										logout().then((res) => {
+											if (res) {
+												setIsAuthenticated(false);
+											}
+										});
 									}}
 								>
 									Logout

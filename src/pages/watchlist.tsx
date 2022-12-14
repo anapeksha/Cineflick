@@ -118,7 +118,7 @@ export default Watchlist;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { token } = context.req.cookies;
-	const userData = await decodeToken(token);
+	const userData = await decodeToken(token as string);
 	if (token) {
 		return {
 			props: {
