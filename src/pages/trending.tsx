@@ -10,6 +10,7 @@ import { Suspense } from "react";
 import ResponsiveDialog from "../components/ResponsiveDialog";
 import IWatchlist from "../interfaces/IWatchlist";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
+import { decodeToken } from "../lib/auth/jwt";
 
 const Trending = (props: any) => {
 	const [modalData, setModalData] = useState<IWatchlist>({
@@ -29,11 +30,16 @@ const Trending = (props: any) => {
 		vote_count: 0,
 	});
 	const [modalOpen, setModalOpen] = useState(false);
-	const { setIsAuthenticated } = useAuthenticationContext();
+	const { setIsAuthenticated, setUser } = useAuthenticationContext();
 	const router = useRouter();
+
 	useEffect(() => {
 		setIsAuthenticated(props.isAuthenticated);
-	});
+		if (props.user) {
+			setUser(props.user);
+		}
+	}, []);
+
 	return (
 		<main>
 			<Grid
@@ -75,10 +81,16 @@ export default Trending;
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { id } = context.query;
 	const { token } = context.req.cookies;
+	const userData = await decodeToken(token as string);
 	var loggedIn = token ? true : false;
 	var data: any = await getTrending(1, "day");
-	console.log("data", data);
-	return {
-		props: { data: data, isAuthenticated: loggedIn },
-	};
+	if (loggedIn) {
+		return {
+			props: { data: data, isAuthenticated: loggedIn, user: userData },
+		};
+	} else {
+		return {
+			props: { data: data, isAuthenticated: loggedIn, user: null },
+		};
+	}
 };
