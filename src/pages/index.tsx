@@ -11,6 +11,7 @@ import { Suspense } from "react";
 import ResponsiveDialog from "../components/ResponsiveDialog";
 import IWatchlist from "../interfaces/IWatchlist";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
+import { decodeToken } from "../lib/auth/jwt";
 
 const Home = (props: any) => {
 	const [modalData, setModalData] = useState<IWatchlist>({
@@ -33,7 +34,7 @@ const Home = (props: any) => {
 	const router = useRouter();
 	const [upcomingData, setUpcomingData]: Array<any> = useState([]);
 	const [topRatedData, setTopRatedData]: Array<any> = useState([]);
-	const { setIsAuthenticated } = useAuthenticationContext();
+	const { setIsAuthenticated, setUser } = useAuthenticationContext();
 
 	const createNewArray = (arr: Array<any>) => {
 		var results: Array<any> = [],
@@ -53,6 +54,9 @@ const Home = (props: any) => {
 
 	useEffect(() => {
 		setIsAuthenticated(props.isAuthenticated);
+		if (props.user) {
+			setUser(props.user);
+		}
 		var data: any = sessionStorage.getItem("data");
 		if (data) {
 			data = JSON.parse(data);
@@ -148,14 +152,27 @@ export default Home;
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	var { id } = context.query;
 	const { token } = context.req.cookies;
+	const userData = await decodeToken(token as string);
 	var loggedIn = token ? true : false;
 	var topMoviesData: any = await getTopRated();
 	var upcomingMoviesData: any = await getUpcoming();
-	return {
-		props: {
-			topMoviesData: topMoviesData,
-			upcomingMoviesData: upcomingMoviesData,
-			isAuthenticated: loggedIn,
-		},
-	};
+	if (loggedIn) {
+		return {
+			props: {
+				topMoviesData: topMoviesData,
+				upcomingMoviesData: upcomingMoviesData,
+				isAuthenticated: loggedIn,
+				user: userData,
+			},
+		};
+	} else {
+		return {
+			props: {
+				topMoviesData: topMoviesData,
+				upcomingMoviesData: upcomingMoviesData,
+				isAuthenticated: loggedIn,
+				user: null,
+			},
+		};
+	}
 };
