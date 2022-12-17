@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { AlertColor, Box } from "@mui/material";
 import Image from "next/image";
 import Form from "../../../components/Form";
+import CustomAlert from "../../../components/CustomAlert";
 import { useRouter } from "next/router";
 import { useLoadingContext } from "../../../lib/context/loadedContext";
 import axios, { AxiosError, AxiosResponse } from "axios";
@@ -36,24 +37,24 @@ const Profile = () => {
 	const [open, setOpen] = useState(false);
 	const [message, setMessage] = useState("");
 	const [variant, setVariant] = useState<AlertColor | undefined>(alert);
-	const [photoView, setPhotoView] = useState("");
 	const { setIsLoading } = useLoadingContext();
 	const router = useRouter();
 
 	const updateProfile = async (
 		image: string | ArrayBuffer | null,
-		username: FormDataEntryValue | null,
 		email: FormDataEntryValue | null,
+		username: FormDataEntryValue | null,
 		password: FormDataEntryValue | null
 	) => {
 		setIsLoading(true);
 		try {
-			const response = await axios.post("/api/profile/updateProfile", {
+			const response = await axios.put("/api/profile/updateProfile", {
 				photo: image,
 				email: email,
 				username: username,
 				password: password,
 			});
+			console.log(response);
 			if (response.status === 200) {
 				setIsLoading(false);
 				alert = "success";
@@ -95,6 +96,12 @@ const Profile = () => {
 
 	return (
 		<main>
+			<CustomAlert
+				open={open}
+				setOpen={setOpen}
+				message={message}
+				variant={variant}
+			/>
 			<Box
 				display="flex"
 				justifyContent="center"
