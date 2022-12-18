@@ -12,7 +12,7 @@ export default async function handler(
 ) {
 	const salt = parseInt(SALT_ROUNDS as string);
 	await dbConnect();
-	if (req.method === "PUT") {
+	if (req.method === "POST") {
 		const { token } = req.cookies;
 		const photo = req.body.photo;
 		const email = req.body.email;
