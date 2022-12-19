@@ -110,9 +110,9 @@ const Profile = (props: any) => {
 		const photoFile = data.get("profile-image");
 		const reader = new FileReader();
 		imageUpload(photoFile).then((compressedFile) => {
-			console.log(compressedFile);
 			reader.readAsDataURL(compressedFile as Blob);
 			reader.onloadend = () => {
+				localStorage.setItem("photo", reader.result);
 				updateProfile(reader.result, email, username, password);
 			};
 		});
