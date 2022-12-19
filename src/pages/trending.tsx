@@ -11,6 +11,7 @@ import ResponsiveDialog from "../components/ResponsiveDialog";
 import IWatchlist from "../interfaces/IWatchlist";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 import { decodeToken } from "../lib/auth/jwt";
+import { useLoadingContext } from "../lib/context/loadedContext";
 
 const Trending = (props: any) => {
 	const [modalData, setModalData] = useState<IWatchlist>({
@@ -31,13 +32,30 @@ const Trending = (props: any) => {
 	});
 	const [modalOpen, setModalOpen] = useState(false);
 	const { setIsAuthenticated, setUser } = useAuthenticationContext();
+	const { setIsLoading } = useLoadingContext();
+	const [data, setData] = useState<any>();
 	const router = useRouter();
+
+	const fetchData = async () => {
+		setIsLoading(true);
+		try {
+			const response: any = await getTrending(1, "day");
+			if (response) {
+				setData(response);
+			}
+			setIsLoading(false);
+		} catch (error: any) {
+			console.log(error);
+			setIsLoading(false);
+		}
+	};
 
 	useEffect(() => {
 		setIsAuthenticated(props.isAuthenticated);
 		if (props.user) {
 			setUser(props.user);
 		}
+		fetchData();
 	}, []);
 
 	return (
@@ -48,24 +66,23 @@ const Trending = (props: any) => {
 				spacing={2.5}
 				columns={10}
 			>
-				{props.data.results.map((d: any, i: number) => {
-					return (
-						<Grid item xs={5} sm={2.5} md={2} key={i}>
-							<BasicCard
-								altText={d.original_title || d.title}
-								image={handleImage(d.poster_path)}
-								title={d.title}
-								id={d.id}
-								handleClick={() => {
-									router.query.id = d.id;
-									router.replace(router);
-									setModalData(d);
-									setModalOpen(true);
-								}}
-							/>
-						</Grid>
-					);
-				})}
+				{data &&
+					data.results.map((d: any, i: number) => {
+						return (
+							<Grid item xs={5} sm={2.5} md={2} key={i}>
+								<BasicCard
+									altText={d.original_title || d.title}
+									image={handleImage(d.poster_path)}
+									title={d.title}
+									id={d.id}
+									handleClick={() => {
+										setModalData(d);
+										setModalOpen(true);
+									}}
+								/>
+							</Grid>
+						);
+					})}
 			</Grid>
 			<ResponsiveDialog
 				data={modalData}
@@ -83,14 +100,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { token } = context.req.cookies;
 	const userData = await decodeToken(token as string);
 	var loggedIn = token ? true : false;
-	var data: any = await getTrending(1, "day");
 	if (loggedIn) {
 		return {
-			props: { data: data, isAuthenticated: loggedIn, user: userData },
+			props: { isAuthenticated: loggedIn, user: userData },
 		};
 	} else {
 		return {
-			props: { data: data, isAuthenticated: loggedIn, user: null },
+			props: { isAuthenticated: loggedIn, user: null },
 		};
 	}
 };
