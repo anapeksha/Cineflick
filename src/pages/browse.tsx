@@ -21,7 +21,7 @@ import { decodeToken } from "../lib/auth/jwt";
 const Browse = (props: any) => {
 	const [query, setQuery] = useState("");
 	const [page, setPage] = useState("1");
-	const [totalPages, setTotalPages] = useState<number>();
+	const [totalPages, setTotalPages] = useState<number>(0);
 	const [initialData, setInitialData] = useState<any>();
 	const [searching, setSearching] = useState<boolean>();
 	const [searchResults, setSearchResults] = useState([]);
