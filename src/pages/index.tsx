@@ -106,8 +106,6 @@ const Home = (props: any) => {
 									image={handleImage(result.poster_path)}
 									altText={result.original_title || result.title}
 									handleClick={() => {
-										router.query.id = result.id;
-										router.replace(router);
 										setModalData(result);
 										setModalOpen(true);
 									}}
@@ -137,8 +135,6 @@ const Home = (props: any) => {
 										image={handleImage(result.poster_path)}
 										altText={result.original_title || result.title}
 										handleClick={() => {
-											router.query.id = result.id;
-											router.replace(router);
 											setModalData(result);
 											setModalOpen(true);
 										}}
