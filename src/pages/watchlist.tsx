@@ -8,6 +8,7 @@ import ResponsiveDialog from "../components/ResponsiveDialog";
 import Loader from "../components/Loader";
 import { useRouter } from "next/router";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
+import { useLoadingContext } from "../lib/context/loadedContext";
 import axios from "axios";
 import { decodeToken } from "../lib/auth/jwt";
 
@@ -49,16 +50,29 @@ const Watchlist = (props: any) => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const { isAuthenticated, setIsAuthenticated, setUser } =
 		useAuthenticationContext();
+	const { setIsLoading } = useLoadingContext();
 	const router = useRouter();
 
 	const fetchWatchlist = async () => {
-		try {
-			const response = await axios.get("/api/watchlist/getWatchlist");
-			if (response.status === 200) {
-				setWatchlist(response.data.watchlist.list);
+		const cachedWatchlist = localStorage.getItem("watchlist");
+		if (cachedWatchlist) {
+			setWatchlist(JSON.parse(cachedWatchlist));
+		} else {
+			setIsLoading(true);
+			try {
+				const response = await axios.get("/api/watchlist/getWatchlist");
+				if (response.status === 200) {
+					setIsLoading(false);
+					setWatchlist(response.data.watchlist.list);
+					localStorage.setItem(
+						"watchlist",
+						JSON.stringify(response.data.watchlist.list)
+					);
+				}
+			} catch (err) {
+				setIsLoading(false);
+				router.push("/login");
 			}
-		} catch (err) {
-			router.push("/login");
 		}
 	};
 
@@ -68,9 +82,6 @@ const Watchlist = (props: any) => {
 		if (props.user) {
 			setUser(props.user);
 		}
-	}, []);
-
-	useEffect(() => {
 		if (!isAuthenticated) {
 			router.replace("/");
 		}

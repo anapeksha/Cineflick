@@ -7,6 +7,7 @@ import getUser from "../lib/auth/getUser";
 import { useRouter } from "next/router";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 import { useLoadingContext } from "../lib/context/loadedContext";
+import getPhoto from "../lib/clientHelpers/getPhoto";
 
 const fields = [
 	{
@@ -37,16 +38,33 @@ const Login = (props: any) => {
 	const router = useRouter();
 
 	const handleGetWatchlist = async () => {
-		try {
-			const response = await axios.get("/api/watchlist/getWatchlist");
-			if (response.status === 200) {
-				localStorage.setItem(
-					"watchlist",
-					JSON.stringify(response.data.watchlist.list)
-				);
+		setIsLoading(true);
+		const watchlist = localStorage.getItem("watchlist");
+		if (!watchlist) {
+			try {
+				const response = await axios.get("/api/watchlist/getWatchlist");
+				if (response.status === 200) {
+					localStorage.setItem(
+						"watchlist",
+						JSON.stringify(response.data.watchlist.list)
+					);
+					setIsLoading(false);
+				}
+			} catch (err) {
+				router.push("/login");
+				setIsLoading(false);
 			}
-		} catch (err) {
-			router.push("/login");
+		} else {
+			setIsLoading(false);
+		}
+	};
+
+	const handlePhoto = async () => {
+		try {
+			const response = await getPhoto();
+			localStorage.setItem("photo", response.photo);
+		} catch (error: any) {
+			console.log(error);
 		}
 	};
 
@@ -73,6 +91,7 @@ const Login = (props: any) => {
 			});
 			if (response.status === 200) {
 				handleGetWatchlist();
+				handlePhoto();
 				setIsLoading(false);
 				alert = "success";
 				setOpen(true);

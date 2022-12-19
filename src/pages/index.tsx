@@ -12,6 +12,7 @@ import ResponsiveDialog from "../components/ResponsiveDialog";
 import IWatchlist from "../interfaces/IWatchlist";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
 import { decodeToken } from "../lib/auth/jwt";
+import { useLoadingContext } from "../lib/context/loadedContext";
 
 const Home = (props: any) => {
 	const [modalData, setModalData] = useState<IWatchlist>({
@@ -35,6 +36,7 @@ const Home = (props: any) => {
 	const [upcomingData, setUpcomingData]: Array<any> = useState([]);
 	const [topRatedData, setTopRatedData]: Array<any> = useState([]);
 	const { setIsAuthenticated, setUser } = useAuthenticationContext();
+	const { setIsLoading } = useLoadingContext();
 
 	const createNewArray = (arr: Array<any>) => {
 		var results: Array<any> = [],
@@ -52,25 +54,34 @@ const Home = (props: any) => {
 		return results;
 	};
 
-	useEffect(() => {
-		setIsAuthenticated(props.isAuthenticated);
-		if (props.user) {
-			setUser(props.user);
-		}
+	const fetchData = async () => {
+		setIsLoading(true);
 		var data: any = sessionStorage.getItem("data");
 		if (data) {
 			data = JSON.parse(data);
 			setUpcomingData(data.upcoming);
 			setTopRatedData(data.topRated);
+			setIsLoading(false);
 		} else {
+			var topMoviesData: any = await getTopRated();
+			var upcomingMoviesData: any = await getUpcoming();
 			var tempData = {
-				upcoming: createNewArray(props.upcomingMoviesData.results),
-				topRated: createNewArray(props.topMoviesData.results),
+				upcoming: createNewArray(upcomingMoviesData.results),
+				topRated: createNewArray(topMoviesData.results),
 			};
 			sessionStorage.setItem("data", JSON.stringify(tempData));
-			setUpcomingData(tempData.upcoming);
 			setTopRatedData(tempData.topRated);
+			setUpcomingData(tempData.upcoming);
+			setIsLoading(false);
 		}
+	};
+
+	useEffect(() => {
+		setIsAuthenticated(props.isAuthenticated);
+		if (props.user) {
+			setUser(props.user);
+		}
+		fetchData();
 	}, []);
 
 	return (
@@ -154,13 +165,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { token } = context.req.cookies;
 	const userData = await decodeToken(token as string);
 	var loggedIn = token ? true : false;
-	var topMoviesData: any = await getTopRated();
-	var upcomingMoviesData: any = await getUpcoming();
 	if (loggedIn) {
 		return {
 			props: {
-				topMoviesData: topMoviesData,
-				upcomingMoviesData: upcomingMoviesData,
 				isAuthenticated: loggedIn,
 				user: userData,
 			},
@@ -168,8 +175,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	} else {
 		return {
 			props: {
-				topMoviesData: topMoviesData,
-				upcomingMoviesData: upcomingMoviesData,
 				isAuthenticated: loggedIn,
 				user: null,
 			},
