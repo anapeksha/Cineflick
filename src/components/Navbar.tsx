@@ -38,14 +38,22 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 	};
 
 	const fetchData = async () => {
-		const response = await getPhoto();
-		if (response !== undefined) {
-			setPhoto(response.photo);
+		const image = localStorage.getItem("photo");
+		if (image) {
+			setPhoto(JSON.parse(image));
+		} else {
+			const response = await getPhoto();
+			if (response !== undefined) {
+				setPhoto(response.photo);
+				localStorage.setItem("photo", JSON.stringify(response.photo));
+			}
 		}
 	};
 
 	useEffect(() => {
-		fetchData();
+		if (isAuthenticated) {
+			fetchData();
+		}
 	}, []);
 
 	return (

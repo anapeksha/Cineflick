@@ -6,6 +6,7 @@ const logout = async () => {
 		if (response.status === 200) {
 			window.location.href = "/login";
 			localStorage.removeItem("watchlist");
+			localStorage.removeItem("photo");
 			return true;
 		} else return false;
 	} catch (err: any) {
