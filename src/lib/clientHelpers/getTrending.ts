@@ -3,7 +3,7 @@ import { API_KEY } from "../../uri";
 
 const config = {
 	headers: {
-		"Accept-Encoding": "application/json",
+		Accept: "application/json",
 	},
 };
 

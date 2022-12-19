@@ -2,7 +2,7 @@ import axios from "axios";
 
 const config = {
 	headers: {
-		"Accept-Encoding": "application/json",
+		Accept: "application/json",
 	},
 };
 
