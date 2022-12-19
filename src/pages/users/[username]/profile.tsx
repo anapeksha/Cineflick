@@ -112,7 +112,7 @@ const Profile = (props: any) => {
 		imageUpload(photoFile).then((compressedFile) => {
 			reader.readAsDataURL(compressedFile as Blob);
 			reader.onloadend = () => {
-				localStorage.setItem("photo", reader.result);
+				localStorage.setItem("photo", reader.result as string);
 				updateProfile(reader.result, email, username, password);
 			};
 		});
