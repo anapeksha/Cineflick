@@ -40,12 +40,12 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 	const fetchData = async () => {
 		const image = localStorage.getItem("photo");
 		if (image) {
-			setPhoto(JSON.parse(image));
+			setPhoto(image);
 		} else {
 			const response = await getPhoto();
 			if (response !== undefined) {
 				setPhoto(response.photo);
-				localStorage.setItem("photo", JSON.stringify(response.photo));
+				localStorage.setItem("photo", response.photo);
 			}
 		}
 	};
@@ -54,7 +54,7 @@ const Navbar: React.FC<INavbarProps> = (props) => {
 		if (isAuthenticated) {
 			fetchData();
 		}
-	}, []);
+	}, [isAuthenticated]);
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
