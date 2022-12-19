@@ -31,6 +31,7 @@ import IDialog from "../interfaces/IDialog";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import IWatchlist from "../interfaces/IWatchlist";
 import { useLoadingContext } from "../lib/context/loadedContext";
+import Loader from "./Loader";
 
 var alert: AlertColor = "error";
 
@@ -285,6 +286,7 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 				message={message}
 				variant={variant}
 			/>
+			<Loader />
 		</Dialog>
 	);
 };
