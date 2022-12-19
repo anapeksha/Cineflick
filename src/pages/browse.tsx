@@ -131,8 +131,6 @@ const Browse = (props: any) => {
 									title={d.title}
 									id={d.id}
 									handleClick={() => {
-										router.query.id = d.id;
-										router.replace(router);
 										setModalOpen(true);
 										setModalData(d);
 										refreshData();
