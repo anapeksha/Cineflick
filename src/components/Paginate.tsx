@@ -4,7 +4,7 @@ import React from "react";
 
 const Paginate: React.FC<IPaginateProps> = (props) => {
 	const handleChange = (page: number) => {
-		props.setPage(page);
+		props.setPage(page.toString());
 		window.scrollTo({
 			top: 0,
 			left: 0,
@@ -16,6 +16,7 @@ const Paginate: React.FC<IPaginateProps> = (props) => {
 			sx={{ display: "flex", justifyContent: "center", paddingBottom: "20px" }}
 		>
 			<Pagination
+				page={parseInt(props.page)}
 				count={props.totalPages || 10}
 				onChange={(e: React.ChangeEvent<any>) => {
 					if (e.target.textContent) {
