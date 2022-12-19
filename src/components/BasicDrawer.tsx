@@ -36,7 +36,7 @@ const BasicDrawer: React.FC<IDrawerProps> = (props) => {
 		{
 			title: "Browse",
 			icon: <SearchIcon />,
-			url: "/browse?page=1",
+			url: "/browse",
 			visible: true,
 		},
 		{
