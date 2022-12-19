@@ -9,9 +9,8 @@ const LoginLoader = () => {
 		<Backdrop
 			sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
 			open={isLoading}
-			invisible={true}
 		>
-			<CircularProgress color="inherit" />
+			<CircularProgress color="primary" size={55} />
 		</Backdrop>
 	);
 };
