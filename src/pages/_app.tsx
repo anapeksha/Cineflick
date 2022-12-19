@@ -26,25 +26,33 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const router = useRouter();
 
 	const fetchData = async () => {
+		setIsLoading(true);
 		const response = await getUser();
 		if (response !== undefined) {
 			setUser(response);
+			setIsLoading(false);
 		}
+		setIsLoading(false);
 	};
 
 	const handleGetWatchlist = async () => {
 		setIsLoading(true);
-		try {
-			const response = await axios.get("/api/watchlist/getWatchlist");
-			if (response.status === 200) {
-				localStorage.setItem(
-					"watchlist",
-					JSON.stringify(response.data.watchlist.list)
-				);
+		const watchlist = localStorage.getItem("watchlist");
+		if (!watchlist) {
+			try {
+				const response = await axios.get("/api/watchlist/getWatchlist");
+				if (response.status === 200) {
+					localStorage.setItem(
+						"watchlist",
+						JSON.stringify(response.data.watchlist.list)
+					);
+					setIsLoading(false);
+				}
+			} catch (err) {
+				router.push("/login");
 				setIsLoading(false);
 			}
-		} catch (err) {
-			router.push("/login");
+		} else {
 			setIsLoading(false);
 		}
 	};
