@@ -4,7 +4,7 @@ const logout = async () => {
 	try {
 		const response = await axios.get("/api/auth/logout");
 		if (response.status === 200) {
-			window.location.href = "/login";
+			window.location.href = "/";
 			localStorage.removeItem("watchlist");
 			localStorage.removeItem("photo");
 			return true;
