@@ -52,7 +52,6 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 	});
 	const [findTorrent, setFindTorrent] = useState(false);
 	const [found, setFound] = useState(false);
-	const { query } = useRouter();
 
 	const handleClose = () => {
 		props.setOpen(false);
@@ -71,7 +70,7 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 
 	const fetchData = async () => {
 		if (query.id !== undefined) {
-			var imdb = await getIMDB(query.id);
+			var imdb = await getIMDB(props.data.id);
 			if (imdb !== undefined) {
 				var torrent: any = await getYTS(imdb);
 				if (torrent !== undefined && torrent.data.movie.title !== null) {
@@ -264,7 +263,7 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 				<DialogContentText variant="subtitle1" fontWeight="bold">
 					Cast
 				</DialogContentText>
-				<Carousel id={String(query.id)} />
+				<Carousel id={String(props.data.id)} />
 			</DialogContent>
 			<DialogActions>
 				{isAuthenticated ? handleWatchlistIcon() : null}
