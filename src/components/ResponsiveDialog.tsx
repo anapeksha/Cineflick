@@ -69,7 +69,7 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 	};
 
 	const fetchData = async () => {
-		if (query.id !== undefined) {
+		if (props.data.id !== undefined) {
 			var imdb = await getIMDB(props.data.id);
 			if (imdb !== undefined) {
 				var torrent: any = await getYTS(imdb);
