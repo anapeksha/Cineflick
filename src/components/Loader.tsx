@@ -2,7 +2,7 @@ import React from "react";
 import { Backdrop, CircularProgress, Box } from "@mui/material";
 import { useLoadingContext } from "../lib/context/loadedContext";
 
-const LoginLoader = () => {
+const Loader = () => {
 	const { isLoading } = useLoadingContext();
 
 	return (
@@ -15,4 +15,4 @@ const LoginLoader = () => {
 	);
 };
 
-export default LoginLoader;
+export default Loader;
