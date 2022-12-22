@@ -39,22 +39,17 @@ const Login = (props: any) => {
 
 	const handleGetWatchlist = async () => {
 		setIsLoading(true);
-		const watchlist = localStorage.getItem("watchlist");
-		if (!watchlist) {
-			try {
-				const response = await axios.get("/api/watchlist/getWatchlist");
-				if (response.status === 200) {
-					localStorage.setItem(
-						"watchlist",
-						JSON.stringify(response.data.watchlist.list)
-					);
-					setIsLoading(false);
-				}
-			} catch (err) {
-				router.push("/login");
+		try {
+			const response = await axios.get("/api/watchlist/getWatchlist");
+			if (response.status === 200) {
+				localStorage.setItem(
+					"watchlist",
+					JSON.stringify(response.data.watchlist.list)
+				);
 				setIsLoading(false);
 			}
-		} else {
+		} catch (err) {
+			router.push("/login");
 			setIsLoading(false);
 		}
 	};
