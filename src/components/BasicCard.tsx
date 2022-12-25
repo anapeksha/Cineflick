@@ -22,6 +22,9 @@ const BasicCard: React.FC<ICardProps> = (props) => {
 						height="140"
 						style={{ objectFit: "contain" }}
 						alt={props.altText}
+						placeholder="blur"
+						blurDataURL="/image-loading.webp"
+						priority
 					/>
 				</CardMedia>
 				<CardContent>

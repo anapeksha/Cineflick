@@ -27,12 +27,16 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 
 	const fetchData = async () => {
 		setIsLoading(true);
-		const response = await getUser();
-		if (response !== undefined) {
-			setUser(response);
+		try {
+			const response = await getUser();
+			if (response !== undefined) {
+				setUser(response);
+				setIsLoading(false);
+			}
+			setIsLoading(false);
+		} catch (error: any) {
 			setIsLoading(false);
 		}
-		setIsLoading(false);
 	};
 
 	const handleGetWatchlist = async () => {
