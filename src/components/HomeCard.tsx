@@ -18,6 +18,9 @@ const HomeCard = (props: any) => {
 						width="150"
 						height="250"
 						style={{ objectFit: "cover" }}
+						placeholder="blur"
+						blurDataURL="/image-loading.webp"
+						priority
 					/>
 				</CardMedia>
 			</CardActionArea>
