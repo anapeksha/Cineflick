@@ -90,7 +90,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<meta
 					name="theme-color"
-					content={theme === darkTheme ? "#272727" : "#1876d2"}
+					content={theme === darkTheme ? "#2a2a2a" : "#1876d2"}
 				/>
 				<link rel="manifest" href="/manifest.json" />
 				<link rel="apple-touch-icon" href="/logo512.png" />
