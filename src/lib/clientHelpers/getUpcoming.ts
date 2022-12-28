@@ -11,7 +11,7 @@ const getUpcoming: any = () => {
 	return axios
 		.get(
 			`https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&page=${Math.floor(
-				Math.random() * 100
+				Math.random() * 10
 			)}`,
 			config
 		)
