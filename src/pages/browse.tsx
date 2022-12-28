@@ -155,8 +155,7 @@ export default Browse;
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { token } = context.req.cookies;
 	const userData = await decodeToken(token as string);
-	var loggedIn = token ? true : false;
-	if (loggedIn) {
+	if (userData !== undefined) {
 		return {
 			props: { isAuthenticated: loggedIn, user: userData },
 		};

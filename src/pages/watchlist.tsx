@@ -71,7 +71,7 @@ const Watchlist = (props: any) => {
 				}
 			} catch (err) {
 				setIsLoading(false);
-				router.push("/login");
+				console.log(err);
 			}
 		}
 	};
@@ -128,7 +128,7 @@ export default Watchlist;
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { token } = context.req.cookies;
 	const userData = await decodeToken(token as string);
-	if (token) {
+	if (userData !== undefined) {
 		return {
 			props: {
 				isAuthenticated: true,
