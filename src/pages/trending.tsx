@@ -100,11 +100,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const userData = await decodeToken(token as string);
 	if (userData !== undefined) {
 		return {
-			props: { isAuthenticated: loggedIn, user: userData },
+			props: { isAuthenticated: true, user: userData },
 		};
 	} else {
 		return {
-			props: { isAuthenticated: loggedIn, user: null },
+			props: { isAuthenticated: false, user: null },
 		};
 	}
 };
