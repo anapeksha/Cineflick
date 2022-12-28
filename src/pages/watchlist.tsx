@@ -82,9 +82,6 @@ const Watchlist = (props: any) => {
 		if (props.user) {
 			setUser(props.user);
 		}
-		if (!isAuthenticated) {
-			router.replace("/");
-		}
 	}, []);
 
 	return (
