@@ -157,7 +157,6 @@ const Home = (props: any) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	var { id } = context.query;
 	const { token } = context.req.cookies;
 	const userData = await decodeToken(token as string);
 	if (userData !== undefined) {
