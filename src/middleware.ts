@@ -16,7 +16,10 @@ export async function middleware(request: NextRequest) {
 		) {
 			NextResponse.next();
 		}
-	} else {
+	} else if (url.pathname.includes("/signup")) {
+		url.pathname = "/signup";
+		NextResponse.redirect(url);
+	} else if (url.pathname.includes("/login")) {
 		url.pathname = "/login";
 		NextResponse.redirect(url);
 	}
