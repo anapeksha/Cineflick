@@ -9,19 +9,18 @@ export async function middleware(request: NextRequest) {
 	if (data !== undefined) {
 		if (url.pathname.includes("/login") || url.pathname.includes("/signup")) {
 			url.pathname = "/";
-			NextResponse.redirect(url);
+			return NextResponse.redirect(url);
 		} else if (
 			url.pathname.includes("/users") ||
 			url.pathname.includes("/watchlist")
 		) {
-			NextResponse.next();
+			return NextResponse.next();
 		}
-	} else if (url.pathname.includes("/signup")) {
-		url.pathname = "/signup";
-		NextResponse.redirect(url);
-	} else if (url.pathname.includes("/login")) {
-		url.pathname = "/login";
-		NextResponse.redirect(url);
+	} else if (
+		url.pathname.includes("/signup") ||
+		url.pathname.includes("/login")
+	) {
+		return NextResponse.next();
 	}
 }
 
