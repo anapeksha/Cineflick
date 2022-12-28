@@ -7,9 +7,16 @@ const config = {
 	},
 };
 
+const getRandom = () => {
+	return Math.floor(Math.random() * 100);
+};
+
 const getUpcoming: any = () => {
 	return axios
-		.get(`https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}`, config)
+		.get(
+			`https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&page=${getRandom()}`,
+			config
+		)
 		.then((response) => {
 			return response.data;
 		});
