@@ -4,7 +4,7 @@ import { decodeToken } from "./lib/auth/jwt";
 
 export async function middleware(request: NextRequest) {
 	const token = request.cookies.get("token");
-	const data = await decodeToken(token?.value);
+	const data = await decodeToken(token?.value as string);
 	const url = request.nextUrl.clone();
 	if (data !== undefined) {
 		if (url.pathname.includes("/login") || url.pathname.includes("/signup")) {
