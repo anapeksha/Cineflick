@@ -120,9 +120,6 @@ const Profile = (props: any) => {
 
 	useEffect(() => {
 		setUser(props.user);
-		if (!isAuthenticated) {
-			router.push("/login");
-		}
 	}, []);
 
 	return (
