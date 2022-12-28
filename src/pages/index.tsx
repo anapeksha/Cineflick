@@ -103,7 +103,7 @@ const Home = (props: any) => {
 						return (
 							<Grid item xs={3} sm={2} md={1} key={i}>
 								<HomeCard
-									image={handleImage(result.poster_path)}
+									image={handleImage(result.poster_path, "300")}
 									altText={result.original_title || result.title}
 									handleClick={() => {
 										setModalData(result);
@@ -132,7 +132,7 @@ const Home = (props: any) => {
 							return (
 								<Grid item xs={3} sm={2} md={1} key={i}>
 									<HomeCard
-										image={handleImage(result.poster_path)}
+										image={handleImage(result.poster_path, "300")}
 										altText={result.original_title || result.title}
 										handleClick={() => {
 											setModalData(result);
