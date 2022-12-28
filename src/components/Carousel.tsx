@@ -28,7 +28,7 @@ const Carousel: React.FC<ICarouselProps> = (props) => {
 			key={i}
 		>
 			<Image
-				src={handleImage(credit.profile_path)}
+				src={handleImage(credit.profile_path, "300")}
 				alt={credit.name}
 				onDragStart={handleDragStart}
 				width="65"

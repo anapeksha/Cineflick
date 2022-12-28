@@ -72,17 +72,21 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 		if (props.data.id !== undefined) {
 			var imdb = await getIMDB(props.data.id);
 			if (imdb !== undefined) {
-				var torrent: any = await getYTS(imdb);
-				if (torrent !== undefined && torrent.data.movie.title !== null) {
-					setTorrentData({
-						imdb_rating: torrent.data.movie.rating,
-						torrents: torrent.data.movie.torrents,
-						genres: torrent.data.movie.genres,
-					});
-					setFound(true);
-				} else {
-					setTorrentData(null);
-					setFound(false);
+				try {
+					var torrent: any = await getYTS(imdb);
+					if (torrent !== undefined && torrent.data.movie.title !== null) {
+						setTorrentData({
+							imdb_rating: torrent.data.movie.rating,
+							torrents: torrent.data.movie.torrents,
+							genres: torrent.data.movie.genres,
+						});
+						setFound(true);
+					} else {
+						setTorrentData(null);
+						setFound(false);
+					}
+				} catch (error) {
+					console.log(error);
 				}
 			}
 		}
@@ -217,7 +221,7 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 				}}
 			>
 				<Image
-					src={handleImage(props.data.backdrop_path || props.data.poster_path)}
+					src={handleImage(props.data.backdrop_path || props.data.poster_path, "500")}
 					alt={props.data.title}
 					fill
 					style={{ objectFit: "cover" }}
