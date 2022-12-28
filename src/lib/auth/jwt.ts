@@ -1,15 +1,20 @@
-import { Secret, verify, sign } from "jsonwebtoken";
+import { SignJWT, jwtVerify } from "jose";
 import { JWT_SECRET } from "../../uri";
 
-const encodeToken = (data: any) => {
-	return sign(data, JWT_SECRET as Secret, { expiresIn: "24h" });
+const encodeToken = async (data: any) => {
+	const token = await new SignJWT(data)
+		.setExpirationTime("24h")
+		.setProtectedHeader({ alg: "HS256" })
+		.sign(new TextEncoder().encode(JWT_SECRET));
+	return token;
 };
 
 const decodeToken = async (token: string) => {
 	try {
-		return await verify(token!, JWT_SECRET as Secret);
-	} catch (err) {
-		return err;
+		const data = await jwtVerify(token, new TextEncoder().encode(JWT_SECRET));
+		return data.payload;
+	} catch (error) {
+		return undefined;
 	}
 };
 

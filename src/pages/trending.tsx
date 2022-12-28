@@ -96,17 +96,15 @@ const Trending = (props: any) => {
 export default Trending;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	const { id } = context.query;
 	const { token } = context.req.cookies;
 	const userData = await decodeToken(token as string);
-	var loggedIn = token ? true : false;
-	if (loggedIn) {
+	if (userData !== undefined) {
 		return {
-			props: { isAuthenticated: loggedIn, user: userData },
+			props: { isAuthenticated: true, user: userData },
 		};
 	} else {
 		return {
-			props: { isAuthenticated: loggedIn, user: null },
+			props: { isAuthenticated: false, user: null },
 		};
 	}
 };

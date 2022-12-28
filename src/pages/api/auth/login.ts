@@ -15,16 +15,16 @@ export default async function handler(
 	const password = req.body.password;
 	if (req.method === "POST") {
 		try {
-			var user = await User.find({
+			var user = await User.findOne({
 				$or: [{ username: username }, { email: username }],
 			}).lean();
 			if (!user) {
 				return res.status(404).json({ error: "User does not exist" });
 			}
-			if (await comparePass(password, user[0].password)) {
-				var token = encodeToken({
-					id: user[0]._id,
-					username: user[0].username,
+			if (await comparePass(password, user.password)) {
+				var token = await encodeToken({
+					id: user._id,
+					username: user.username,
 					type: "user",
 				});
 				const serialized = serialize("token", token, {
