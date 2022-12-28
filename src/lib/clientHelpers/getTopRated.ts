@@ -7,10 +7,14 @@ const config = {
 	},
 };
 
+const getRandom = () => {
+	return Math.floor(Math.random() * 100);
+};
+
 const getTopRated: any = () => {
 	return axios
 		.get(
-			`https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`,
+			`https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&page=${getRandom()}`,
 			config
 		)
 		.then((response) => {
