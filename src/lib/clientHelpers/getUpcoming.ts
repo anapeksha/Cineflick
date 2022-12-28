@@ -7,14 +7,12 @@ const config = {
 	},
 };
 
-const getRandom = () => {
-	return Math.floor(Math.random() * 100);
-};
-
 const getUpcoming: any = () => {
 	return axios
 		.get(
-			`https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&page=${getRandom()}`,
+			`https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&page=${Math.floor(
+				Math.random() * 100
+			)}`,
 			config
 		)
 		.then((response) => {
