@@ -17,6 +17,7 @@ export default async function handler(
 			maxAge: -1,
 			path: "/",
 		});
+		res.setHeader("Cache-Control", "no-store");
 		res.setHeader("Set-Cookie", serialized);
 		return res.status(200).json({ message: "Success" });
 	}
