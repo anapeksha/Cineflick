@@ -74,7 +74,7 @@
 - [BCrypt](https://github.com/kelektiv/node.bcrypt.js)
 - [Cookie](https://github.com/jshttp/cookie)
 - [Mongoose](https://github.com/Automattic/mongoose)
-- [JWT](https://github.com/auth0/node-jsonwebtoken)
+- [Jose](https://github.com/panva/jose)
 - [MUI](https://mui.com/)
 - [YTS API](https://yts.mx/api/)
 - [TMDB API](https://developers.themoviedb.org/3/getting-started/introduction/)
