@@ -1,8 +1,8 @@
+import { PhotoCamera } from "@mui/icons-material";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import Link from "next/link";
 import React from "react";
 import IFormProps from "../interfaces/IFormProps";
-import Link from "next/link";
-import { PhotoCamera } from "@mui/icons-material";
 
 const Form: React.FC<IFormProps> = (props) => {
 	return (
@@ -26,12 +26,7 @@ const Form: React.FC<IFormProps> = (props) => {
 							sx={{ mt: 3, mb: 3 }}
 						>
 							Photo
-							<input
-								hidden
-								accept="image/*"
-								type="file"
-								name="profile-image"
-							/>
+							<input hidden accept="image/*" type="file" name="profile-image" />
 						</Button>
 					</Box>
 				) : null}
@@ -41,6 +36,7 @@ const Form: React.FC<IFormProps> = (props) => {
 							key={i}
 							margin="normal"
 							required
+							autoFocus
 							fullWidth
 							type={field.type}
 							label={field.label}
