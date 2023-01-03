@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
 	req: NextApiRequest,
@@ -7,6 +7,7 @@ export default async function handler(
 ) {
 	const { cookies } = req;
 	const token = cookies.token;
+	res.setHeader("Cache-Control", "no-store");
 	if (!token) {
 		return res.status(401).json({ error: "Not logged in" });
 	} else {
@@ -17,7 +18,6 @@ export default async function handler(
 			maxAge: -1,
 			path: "/",
 		});
-		res.setHeader("Cache-Control", "no-store");
 		res.setHeader("Set-Cookie", serialized);
 		return res.status(200).json({ message: "Success" });
 	}
