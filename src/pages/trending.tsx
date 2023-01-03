@@ -9,7 +9,7 @@ import { decodeToken } from "../lib/auth/jwt";
 import getTrending from "../lib/clientHelpers/getTrending";
 import handleImage from "../lib/clientHelpers/handleImage";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
-import { useLoadingContext } from "../lib/context/loadedContext";
+import { useLoadingContext } from "../lib/context/loadingContext";
 
 const Trending = (props: any) => {
 	const [modalData, setModalData] = useState<IWatchlist>({

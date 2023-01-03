@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import CustomAlert from "../components/CustomAlert";
 import Form from "../components/Form";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
-import { useLoadingContext } from "../lib/context/loadedContext";
+import { useLoadingContext } from "../lib/context/loadingContext";
 
 const fields = [
 	{

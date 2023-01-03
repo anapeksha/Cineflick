@@ -7,7 +7,7 @@ import Form from "../components/Form";
 import getUser from "../lib/auth/getUser";
 import getPhoto from "../lib/clientHelpers/getPhoto";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
-import { useLoadingContext } from "../lib/context/loadedContext";
+import { useLoadingContext } from "../lib/context/loadingContext";
 
 const fields = [
 	{

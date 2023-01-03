@@ -9,7 +9,7 @@ import IWatchlist from "../interfaces/IWatchlist";
 import { decodeToken } from "../lib/auth/jwt";
 import handleImage from "../lib/clientHelpers/handleImage";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
-import { useLoadingContext } from "../lib/context/loadedContext";
+import { useLoadingContext } from "../lib/context/loadingContext";
 
 const Watchlist = (props: any) => {
 	const [watchlist, setWatchlist] = useState<Array<IWatchlist>>([
