@@ -1,5 +1,5 @@
 import { Backdrop, CircularProgress } from "@mui/material";
-import { useLoadingContext } from "../lib/context/loadingContext";
+import { useLoadingContext } from "../lib/context/loadedContext";
 
 const Loader = () => {
 	const { isLoading } = useLoadingContext();

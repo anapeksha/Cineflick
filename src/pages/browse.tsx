@@ -12,7 +12,7 @@ import trendingMovies from "../lib/clientHelpers/getTrending";
 import handleImage from "../lib/clientHelpers/handleImage";
 import searchMovies from "../lib/clientHelpers/searchMovies";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
-import { useLoadingContext } from "../lib/context/loadingContext";
+import { useLoadingContext } from "../lib/context/loadedContext";
 
 const Browse = (props: any) => {
 	const [query, setQuery] = useState("");

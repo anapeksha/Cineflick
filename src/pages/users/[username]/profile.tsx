@@ -8,7 +8,7 @@ import CustomAlert from "../../../components/CustomAlert";
 import Form from "../../../components/Form";
 import { decodeToken } from "../../../lib/auth/jwt";
 import { useAuthenticationContext } from "../../../lib/context/authenticatedContext";
-import { useLoadingContext } from "../../../lib/context/loadingContext";
+import { useLoadingContext } from "../../../lib/context/loadedContext";
 
 const fields = [
 	{

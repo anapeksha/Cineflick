@@ -24,7 +24,7 @@ import getIMDB from "../lib/clientHelpers/getIMDB";
 import getYTS from "../lib/clientHelpers/getYTS";
 import handleImage from "../lib/clientHelpers/handleImage";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
-import { useLoadingContext } from "../lib/context/loadingContext";
+import { useLoadingContext } from "../lib/context/loadedContext";
 import BasicPopover from "./BasicPopover";
 import Carousel from "./Carousel";
 import CustomAlert from "./CustomAlert";

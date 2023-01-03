@@ -10,7 +10,7 @@ import getTopRated from "../lib/clientHelpers/getTopRated";
 import getUpcoming from "../lib/clientHelpers/getUpcoming";
 import handleImage from "../lib/clientHelpers/handleImage";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
-import { useLoadingContext } from "../lib/context/loadingContext";
+import { useLoadingContext } from "../lib/context/loadedContext";
 
 const Home = (props: any) => {
 	const [modalData, setModalData] = useState<IWatchlist>({

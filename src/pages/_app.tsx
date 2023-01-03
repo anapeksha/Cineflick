@@ -15,7 +15,7 @@ import {
 import {
 	LoadingProvider,
 	useLoadingContext,
-} from "../lib/context/loadingContext";
+} from "../lib/context/loadedContext";
 import { darkTheme, lightTheme } from "../lib/theme/theme";
 
 export default function App({ Component, pageProps }: AppProps): JSX.Element {
