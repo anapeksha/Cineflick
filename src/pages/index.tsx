@@ -1,18 +1,16 @@
-import { Box, Typography, Grid, Divider } from "@mui/material";
+import { Box, Divider, Grid, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import HomeCard from "../components/HomeCard";
+import ResponsiveDialog from "../components/ResponsiveDialog";
+import IWatchlist from "../interfaces/IWatchlist";
+import { decodeToken } from "../lib/auth/jwt";
 import getTopRated from "../lib/clientHelpers/getTopRated";
 import getUpcoming from "../lib/clientHelpers/getUpcoming";
 import handleImage from "../lib/clientHelpers/handleImage";
-import HomeCard from "../components/HomeCard";
-import { useRouter } from "next/router";
-import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
-import ResponsiveDialog from "../components/ResponsiveDialog";
-import IWatchlist from "../interfaces/IWatchlist";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
-import { decodeToken } from "../lib/auth/jwt";
-import { useLoadingContext } from "../lib/context/loadedContext";
+import { useLoadingContext } from "../lib/context/loadingContext";
 
 const Home = (props: any) => {
 	const [modalData, setModalData] = useState<IWatchlist>({

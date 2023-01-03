@@ -1,6 +1,5 @@
-import React from "react";
-import { Backdrop, CircularProgress, Box } from "@mui/material";
-import { useLoadingContext } from "../lib/context/loadedContext";
+import { Backdrop, CircularProgress } from "@mui/material";
+import { useLoadingContext } from "../lib/context/loadingContext";
 
 const Loader = () => {
 	const { isLoading } = useLoadingContext();

@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Box, Typography, Grid } from "@mui/material";
-import HomeCard from "../components/HomeCard";
-import { GetServerSideProps } from "next";
-import IWatchlist from "../interfaces/IWatchlist";
-import handleImage from "../lib/clientHelpers/handleImage";
-import ResponsiveDialog from "../components/ResponsiveDialog";
-import Loader from "../components/Loader";
-import { useRouter } from "next/router";
-import { useAuthenticationContext } from "../lib/context/authenticatedContext";
-import { useLoadingContext } from "../lib/context/loadedContext";
+import { Box, Grid } from "@mui/material";
 import axios from "axios";
+import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import HomeCard from "../components/HomeCard";
+import ResponsiveDialog from "../components/ResponsiveDialog";
+import IWatchlist from "../interfaces/IWatchlist";
 import { decodeToken } from "../lib/auth/jwt";
+import handleImage from "../lib/clientHelpers/handleImage";
+import { useAuthenticationContext } from "../lib/context/authenticatedContext";
+import { useLoadingContext } from "../lib/context/loadingContext";
 
 const Watchlist = (props: any) => {
 	const [watchlist, setWatchlist] = useState<Array<IWatchlist>>([

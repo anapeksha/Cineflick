@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { GetServerSideProps } from "next";
 import { AlertColor, Box } from "@mui/material";
-import Image from "next/image";
-import Form from "../../../components/Form";
-import CustomAlert from "../../../components/CustomAlert";
-import { useRouter } from "next/router";
-import { useLoadingContext } from "../../../lib/context/loadedContext";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { useAuthenticationContext } from "../../../lib/context/authenticatedContext";
-import { decodeToken } from "../../../lib/auth/jwt";
+import axios, { AxiosError } from "axios";
 import imageCompression from "browser-image-compression";
+import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import CustomAlert from "../../../components/CustomAlert";
+import Form from "../../../components/Form";
+import { decodeToken } from "../../../lib/auth/jwt";
+import { useAuthenticationContext } from "../../../lib/context/authenticatedContext";
+import { useLoadingContext } from "../../../lib/context/loadingContext";
 
 const fields = [
 	{

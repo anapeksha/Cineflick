@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
 import { AlertColor, Box } from "@mui/material";
-import Form from "../components/Form";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import CustomAlert from "../components/CustomAlert";
-import getUser from "../lib/auth/getUser";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/router";
-import { useAuthenticationContext } from "../lib/context/authenticatedContext";
-import { useLoadingContext } from "../lib/context/loadedContext";
+import React, { useEffect, useState } from "react";
+import CustomAlert from "../components/CustomAlert";
+import Form from "../components/Form";
+import getUser from "../lib/auth/getUser";
 import getPhoto from "../lib/clientHelpers/getPhoto";
+import { useAuthenticationContext } from "../lib/context/authenticatedContext";
+import { useLoadingContext } from "../lib/context/loadingContext";
 
 const fields = [
 	{

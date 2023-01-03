@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, ReactNode, useContext, useState } from "react";
 
 interface Props {
 	children?: ReactNode;
 }
 
-const LoadedContext = createContext({
+const LoadingContext = createContext({
 	isLoading: false,
 	setIsLoading: (isLoading: boolean) => {},
 });
@@ -13,15 +13,15 @@ export const LoadingProvider: React.FC<Props> = ({ children }) => {
 	const [loading, setLoading] = useState(false);
 
 	return (
-		<LoadedContext.Provider
+		<LoadingContext.Provider
 			value={{
 				isLoading: loading,
 				setIsLoading: setLoading,
 			}}
 		>
 			{children}
-		</LoadedContext.Provider>
+		</LoadingContext.Provider>
 	);
 };
 
-export const useLoadingContext = () => useContext(LoadedContext);
+export const useLoadingContext = () => useContext(LoadingContext);
