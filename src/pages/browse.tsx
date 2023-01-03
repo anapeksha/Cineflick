@@ -1,22 +1,18 @@
-import BasicCard from "../components/BasicCard";
-import SearchBar from "../components/SearchBar";
-import Paginate from "../components/Paginate";
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
-import ResponsiveDialog from "../components/ResponsiveDialog";
-import { useEffect, useState } from "react";
-import handleImage from "../lib/clientHelpers/handleImage";
-import searchMovies from "../lib/clientHelpers/searchMovies";
-import trendingMovies from "../lib/clientHelpers/getTrending";
-import getIMDB from "../lib/clientHelpers/getIMDB";
-import handleCredits from "../lib/clientHelpers/handleCredits";
-import { useRouter } from "next/router";
-import { GetServerSideProps } from "next";
 import { Grid } from "@mui/material";
-import { useAuthenticationContext } from "../lib/context/authenticatedContext";
-import { useLoadingContext } from "../lib/context/loadedContext";
+import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import BasicCard from "../components/BasicCard";
+import Paginate from "../components/Paginate";
+import ResponsiveDialog from "../components/ResponsiveDialog";
+import SearchBar from "../components/SearchBar";
 import IWatchlist from "../interfaces/IWatchlist";
 import { decodeToken } from "../lib/auth/jwt";
+import trendingMovies from "../lib/clientHelpers/getTrending";
+import handleImage from "../lib/clientHelpers/handleImage";
+import searchMovies from "../lib/clientHelpers/searchMovies";
+import { useAuthenticationContext } from "../lib/context/authenticatedContext";
+import { useLoadingContext } from "../lib/context/loadingContext";
 
 const Browse = (props: any) => {
 	const [query, setQuery] = useState("");

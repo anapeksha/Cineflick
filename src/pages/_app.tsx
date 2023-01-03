@@ -1,11 +1,13 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import axios from "axios";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import BasicDrawer from "../components/BasicDrawer";
-import Navbar from "../components/Navbar";
-import { darkTheme, lightTheme } from "../lib/theme/theme";
 import Loader from "../components/Loader";
+import Navbar from "../components/Navbar";
+import getUser from "../lib/auth/getUser";
 import {
 	AuthenticationProvider,
 	useAuthenticationContext,
@@ -13,10 +15,8 @@ import {
 import {
 	LoadingProvider,
 	useLoadingContext,
-} from "../lib/context/loadedContext";
-import getUser from "../lib/auth/getUser";
-import axios from "axios";
-import { useRouter } from "next/router";
+} from "../lib/context/loadingContext";
+import { darkTheme, lightTheme } from "../lib/theme/theme";
 
 export default function App({ Component, pageProps }: AppProps): JSX.Element {
 	const [theme, setTheme] = useState(darkTheme);

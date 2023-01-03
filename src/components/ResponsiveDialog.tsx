@@ -1,36 +1,33 @@
-import React, { useState, useEffect } from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
-import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import {
-	Button,
+	AlertColor,
+	Box,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
 	IconButton,
-	Box,
-	Divider,
 	Tooltip,
-	AlertColor,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import axios, { AxiosError } from "axios";
 import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import IDialog from "../interfaces/IDialog";
+import IWatchlist from "../interfaces/IWatchlist";
 import getIMDB from "../lib/clientHelpers/getIMDB";
 import getYTS from "../lib/clientHelpers/getYTS";
 import handleImage from "../lib/clientHelpers/handleImage";
-import { useRouter } from "next/router";
-import BasicPopover from "./BasicPopover";
-import CustomAlert from "./CustomAlert";
-import Carousel from "./Carousel";
 import { useAuthenticationContext } from "../lib/context/authenticatedContext";
-import IDialog from "../interfaces/IDialog";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import IWatchlist from "../interfaces/IWatchlist";
-import { useLoadingContext } from "../lib/context/loadedContext";
+import { useLoadingContext } from "../lib/context/loadingContext";
+import BasicPopover from "./BasicPopover";
+import Carousel from "./Carousel";
+import CustomAlert from "./CustomAlert";
 import Loader from "./Loader";
 
 var alert: AlertColor = "error";
@@ -221,7 +218,10 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 				}}
 			>
 				<Image
-					src={handleImage(props.data.backdrop_path || props.data.poster_path, "500")}
+					src={handleImage(
+						props.data.backdrop_path || props.data.poster_path,
+						"500"
+					)}
 					alt={props.data.title}
 					fill
 					style={{ objectFit: "cover" }}
