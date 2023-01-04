@@ -66,7 +66,7 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 	};
 
 	const fetchData = async () => {
-		if (props.data.id !== undefined) {
+		if (props.data.id !== undefined && props.data.id !== 0) {
 			var imdb = await getIMDB(props.data.id);
 			if (imdb !== undefined) {
 				try {
