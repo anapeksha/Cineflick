@@ -32,6 +32,34 @@ import Loader from "./Loader";
 
 var alert: AlertColor = "error";
 
+const tempMap = [
+	{ id: 28, name: "Action" },
+	{ id: 12, name: "Adventure" },
+	{ id: 16, name: "Animation" },
+	{ id: 35, name: "Comedy" },
+	{ id: 80, name: "Crime" },
+	{ id: 99, name: "Documentary" },
+	{ id: 18, name: "Drama" },
+	{ id: 10751, name: "Family" },
+	{ id: 14, name: "Fantasy" },
+	{ id: 36, name: "History" },
+	{ id: 27, name: "Horror" },
+	{ id: 10402, name: "Music" },
+	{ id: 9648, name: "Mystery" },
+	{ id: 10749, name: "Romance" },
+	{ id: 878, name: "Science Fiction" },
+	{ id: 10770, name: "TV Movie" },
+	{ id: 53, name: "Thriller" },
+	{ id: 10752, name: "War" },
+	{ id: 37, name: "Western" },
+];
+
+var genreMap = new Map();
+
+for (var i = 0; i < tempMap.length; ++i) {
+	genreMap.set(tempMap[i].id, tempMap[i].name);
+}
+
 const ResponsiveDialog: React.FC<IDialog> = (props) => {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -45,7 +73,6 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 	const [torrentData, setTorrentData] = useState<any>({
 		imdb_rating: "",
 		torrents: [],
-		genres: [],
 	});
 	const [findTorrent, setFindTorrent] = useState(false);
 	const [found, setFound] = useState(false);
@@ -75,7 +102,6 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 						setTorrentData({
 							imdb_rating: torrent.data.movie.rating,
 							torrents: torrent.data.movie.torrents,
-							genres: torrent.data.movie.genres,
 						});
 						setFound(true);
 					} else {
@@ -252,14 +278,13 @@ const ResponsiveDialog: React.FC<IDialog> = (props) => {
 					variant="body2"
 					style={{ fontWeight: 400, marginBottom: "2%" }}
 				>
-					{torrentData !== null &&
-						torrentData.genres.map((genre: any, i: number) => {
-							if (i !== torrentData.genres.length - 1) {
-								return genre + " ● ";
-							} else {
-								return genre;
-							}
-						})}
+					{props.data.genre_ids.map((genre: number, i: number) => {
+						if (i !== props.data.genre_ids.length - 1) {
+							return genreMap.get(genre) + " ● ";
+						} else {
+							return genreMap.get(genre);
+						}
+					})}
 				</DialogContentText>
 				<DialogContentText sx={{ mb: "20px" }}>
 					{props.data.overview}
