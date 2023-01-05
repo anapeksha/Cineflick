@@ -99,7 +99,7 @@ corepack enable
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/anapeksha/Finderbar.git
+   git clone https://github.com/anapeksha/Cineflick.git
    ```
 2. Install NPM packages
    ```sh
