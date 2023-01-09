@@ -17,7 +17,7 @@
 -->
 
 [![GPL3.0][license-shield]][license-url]
-![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=cineflick)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c776c96a-cb68-43fb-9861-f33cb202a97f/deploy-status)](https://app.netlify.com/sites/cineflick-anapeksha/deploys)
 
 <!-- PROJECT LOGO -->
 <br />
