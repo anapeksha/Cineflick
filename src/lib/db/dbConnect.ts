@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
-
-const MONGODB_URI = process.env.MONGODB_URI;
+import { MONGODB_URI } from "../../uri";
 
 if (!MONGODB_URI) {
 	throw new Error(
 		"Please define the MONGODB_URI environment variable inside .env"
 	);
 }
+
+const dbName = process.env.NODE_ENV === "production" ? "prod" : "dev";
 
 /**
  * Global is used here to maintain a cached connection across hot reloads
@@ -27,21 +28,17 @@ async function dbConnect() {
 	if (!cached.promise) {
 		const opts = {
 			bufferCommands: false,
+			dbName: dbName,
 		};
-
-		cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-			return mongoose;
-		});
+		mongoose.set({ strictQuery: false });
+		cached.promise = mongoose
+			.connect(MONGODB_URI as string, opts)
+			.then((mongoose) => {
+				console.log("DB Connected");
+				return mongoose;
+			});
 	}
-
-	try {
-		cached.conn = await cached.promise;
-		console.log("DB Connected");
-	} catch (e) {
-		cached.promise = null;
-		throw e;
-	}
-
+	cached.conn = await cached.promise;
 	return cached.conn;
 }
 

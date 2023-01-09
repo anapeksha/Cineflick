@@ -21,9 +21,10 @@
   },
   "include": [
     "next-env.d.ts",
+    "globals.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/lib/db/dbConnect.js"
+    "src/lib/db/dbConnect.ts"
   ],
   "exclude": [
     "node_modules"
